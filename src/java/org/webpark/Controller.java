@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
+import org.webpark.dao.DaoFactory;
 
 /**
  *
@@ -47,6 +48,8 @@ public class Controller extends HttpServlet {
             DataSource ds = (DataSource) envCtx.lookup("jdbc/WebPark");
             // Allocate and use a connection from the pool
             Connection conn = ds.getConnection();
+            
+            DaoFactory instance = DaoFactory.getInstance(DaoFactory.DaoType.MYSQL);
 
             try (PrintWriter out = response.getWriter()) {
                 /* TODO output your page here. You may use following sample code. */
@@ -58,7 +61,8 @@ public class Controller extends HttpServlet {
                 out.println("<body>");
                 out.println("<h1>Servlet Controller at " + request.getContextPath() + "</h1>");
                 out.println("<br>");
-                out.println(conn.toString());
+                //out.println(conn.toString());
+                out.println(instance.toString());
                 out.println("</body>");
                 out.println("</html>");
             }
