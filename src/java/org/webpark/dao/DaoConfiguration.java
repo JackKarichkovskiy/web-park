@@ -14,32 +14,32 @@ import java.util.logging.Logger;
  *
  * @author Karichkovskiy Yevhen
  */
-public class DAOConfiguration {
+public class DaoConfiguration {
 
     private static final String DEFAULT_CONF_PATH = "dao.properties";
 
-    private static DAOConfiguration instance;
+    private static DaoConfiguration instance;
 
-    public static DAOConfiguration getInstance() {
+    public static DaoConfiguration getInstance() {
         if (instance == null) {
-            instance = new DAOConfiguration(DEFAULT_CONF_PATH);
+            instance = new DaoConfiguration(DEFAULT_CONF_PATH);
         }
         return instance;
     }
 
     private Properties daoProp;
 
-    public DAOConfiguration(String confPath) {
+    public DaoConfiguration(String confPath) {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         daoProp = new Properties();
         try {
             daoProp.load(classLoader.getResourceAsStream(confPath));
         } catch (IOException ex) {
-            Logger.getLogger(DAOConfiguration.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DaoConfiguration.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public Properties getDaoProp() {
-        return daoProp;
+    public String getProperty(String propName) {
+        return daoProp.getProperty(propName);
     }
 }

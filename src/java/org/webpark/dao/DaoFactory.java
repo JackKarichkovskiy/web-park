@@ -17,7 +17,7 @@ import static org.webpark.utils.ProjectUtils.*;
  */
 public class DaoFactory {
 
-    private static final Properties DAO_PROP = DAOConfiguration.getInstance().getDaoProp();
+    private static final DaoConfiguration DAO_PROP = DaoConfiguration.getInstance();
 
     public enum DaoType {
 
