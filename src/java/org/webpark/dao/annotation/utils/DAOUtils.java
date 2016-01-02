@@ -33,6 +33,17 @@ public class DAOUtils {
     public static final Class<Primary> PRIMARY_KEY_ANNO_CLASS = Primary.class;
     public static final Class<Stored> STORED_ANNO_CLASS = Stored.class;
 
+    public static <T> String defineTableName(Class<T> instance) {
+        checkNotNull(instance);
+        
+        String table = null;
+        //Определения таблицы
+        if (instance.isAnnotationPresent(DAOUtils.STORED_ANNO_CLASS)) {
+            table = instance.getAnnotation(DAOUtils.STORED_ANNO_CLASS).name();
+        }
+        return table;
+    }
+    
     /**
      * Метод, що повертає поле із первинним ключем.
      *

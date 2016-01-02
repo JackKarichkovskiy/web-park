@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -57,7 +58,7 @@ public class Controller extends HttpServlet {
 
             CRUDDaoInterface crudDao = factory.getCRUDDao();
             
-            //INSERT
+                //INSERT
 //            Plant plant = new Plant();
 //            plant.setId(UUID.randomUUID());
 //            plant.setId(UUID.fromString("a6f40940-a8c0-4975-a365-c8a6e30d04c2"));
@@ -70,25 +71,32 @@ public class Controller extends HttpServlet {
 //            } catch (DAOException ex) {
 //                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
 //            }
+//            
+//            //DELETE
+//            Plant delPlant = new Plant();
+//            delPlant.setId(UUID.fromString("cb2cb2b1-085f-4f28-be7b-8b199e9ef8d3"));
+//            try {
+//                crudDao.delete(delPlant);
+//            } catch (DAOException ex) {
+//                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//            
+//            //READ
+//            Plant read = null;
+//            try {
+//                read = crudDao.read(Plant.class, UUID.fromString("a6f40940-a8c0-4975-a365-c8a6e30d04c2"));
+//            } catch (DAOException ex) {
+//                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+//                return;
+//            }
             
-            //DELETE
-            Plant delPlant = new Plant();
-            delPlant.setId(UUID.fromString("cb2cb2b1-085f-4f28-be7b-8b199e9ef8d3"));
+            List<Plant> allPlants = null;
             try {
-                crudDao.delete(delPlant);
+                allPlants = crudDao.getAllEntities(Plant.class);
             } catch (DAOException ex) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-            //READ
-            Plant read = null;
-            try {
-                read = crudDao.read(Plant.class, UUID.fromString("a6f40940-a8c0-4975-a365-c8a6e30d04c2"));
-            } catch (DAOException ex) {
-                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-                return;
-            }
-
             try (PrintWriter out = response.getWriter()) {
                 /* TODO output your page here. You may use following sample code. */
                 out.println("<!DOCTYPE html>");
@@ -99,7 +107,7 @@ public class Controller extends HttpServlet {
                 out.println("<body>");
                 out.println("<h1>Servlet Controller at " + request.getContextPath() + "</h1>");
                 out.println("<br>");
-                out.println(read.toString());
+                out.println(allPlants.toString());
                 out.println("</body>");
                 out.println("</html>");
             }

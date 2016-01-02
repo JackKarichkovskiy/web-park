@@ -18,6 +18,7 @@ public interface CRUDDaoInterface {
     /**
      * Reads entity from database by its id.
      *
+     * @param <T> - entity type
      * @param entityClass-class of entity
      * @param id-primary field
      * @return result entity object from db
@@ -28,6 +29,7 @@ public interface CRUDDaoInterface {
     /**
      * Inserts new data to the database.
      *
+     * @param <T> - entity type
      * @param instance-object that needs to be inserted
      * @return the input object
      * @throws DAOException - if some sql or connection problems
@@ -37,6 +39,7 @@ public interface CRUDDaoInterface {
     /**
      * Updates raw in the db by object's id.
      *
+     * @param <T> - entity type
      * @param instance-об'єкт, який необхідно оновити
      * @throws DAOException - if some sql or connection problems
      */
@@ -45,18 +48,31 @@ public interface CRUDDaoInterface {
     /**
      * Deletes entity in db with the same id.
      *
+     * @param <T> - entity type
      * @param instance - object that needs to be deleted
      * @throws DAOException - if some sql or connection problems
      */
     public <T> void delete(T instance) throws DAOException;
 
     /**
+     * Method returns list of all entities stored in db.
+     * 
+     * @param <T> - entity type
+     * @param entityClass - class of entities that needs to be pulled
+     * @return list of all entities
+     * @throws DAOException - if some sql or connection problems
+     */
+    public <T> List<T> getAllEntities(Class<T> entityClass) throws DAOException;
+    
+    /**
      * Returns list of entities from db after executing input SQL string.
      *
+     * @param <T> - entity type
      * @param entityClass-class of entities
-     * @param SQLString - sql string that needs to be executed
+     * @param sqlString - sql string that needs to be executed
      * @return list of result entities
      * @throws DAOException - if some sql or connection problems
      */
-    public <T> List<T> select(Class<T> entityClass, String SQLString) throws DAOException;
+    public <T> List<T> select(Class<T> entityClass, String sqlString) throws DAOException;
+    
 }
