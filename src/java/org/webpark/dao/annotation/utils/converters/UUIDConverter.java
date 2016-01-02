@@ -12,7 +12,7 @@ import org.webpark.dao.annotation.utils.Converter;
  *
  * @author Karichkovskiy Yevhen
  */
-public class UUIDConverter implements Converter<UUID> {
+class UUIDConverter implements Converter<UUID> {
 
     @Override
     public String toString(UUID value) {

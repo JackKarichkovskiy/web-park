@@ -8,6 +8,7 @@ package org.webpark.dao.annotation.utils;
 /**
  *
  * @author Karichkovskiy Yevhen
+ * @param <T>
  */
 public interface Converter<T> {
 

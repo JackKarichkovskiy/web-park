@@ -11,7 +11,7 @@ import org.webpark.dao.annotation.utils.Converter;
  *
  * @author Karichkovskiy Yevhen
  */
-public class BooleanConverter implements Converter<Boolean> {
+class BooleanConverter implements Converter<Boolean> {
 
     @Override
     public String toString(Boolean value) {

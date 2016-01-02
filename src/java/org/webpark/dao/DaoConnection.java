@@ -21,6 +21,11 @@ import javax.sql.DataSource;
 public class DaoConnection {
     private static DaoConnection instance;
     
+    private static final String ENV_PARAM = "jndi.env";
+    private static final String JNDI_JDBC_PARAM = "jndi.jdbc";
+    
+    private final DaoConfiguration daoConf = DaoConfiguration.getInstance();
+    
     public static DaoConnection getInstance(){
         if( instance == null ){
             instance = new DaoConnection();
@@ -34,9 +39,9 @@ public class DaoConnection {
         try {
             InitialContext initCtx = new InitialContext();
 
-            Context envCtx = (Context) initCtx.lookup("java:comp/env");
-            // Look up our data source
-            ds = (DataSource) envCtx.lookup("jdbc/WebPark");
+            Context envCtx = (Context) initCtx.lookup(daoConf.getProperty(ENV_PARAM));
+            // Look up our jdbc pool data source
+            ds = (DataSource) envCtx.lookup(daoConf.getProperty(JNDI_JDBC_PARAM));
         } catch (NamingException ex) {
             Logger.getLogger(DaoConnection.class.getName()).log(Level.SEVERE, null, ex);
         }

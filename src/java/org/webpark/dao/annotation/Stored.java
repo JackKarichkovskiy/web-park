@@ -7,8 +7,7 @@ package org.webpark.dao.annotation;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import org.webpark.dao.annotation.utils.Converter;
-import org.webpark.dao.annotation.utils.converters.StringConverter;
+import org.webpark.dao.annotation.utils.converters.Converters;
 
 /**
  *
@@ -19,5 +18,5 @@ public @interface Stored {
 
     public String name();
 
-    public Class<? extends Converter> converter() default StringConverter.class;
+    public Converters converter() default Converters.StringConverter;
 }

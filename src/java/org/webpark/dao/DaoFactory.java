@@ -5,7 +5,6 @@
  */
 package org.webpark.dao;
 
-import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.webpark.dao.exception.DaoFactoryNotFoundException;

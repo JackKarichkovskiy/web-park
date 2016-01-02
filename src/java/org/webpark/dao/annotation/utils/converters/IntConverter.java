@@ -11,7 +11,7 @@ import org.webpark.dao.annotation.utils.Converter;
  *
  * @author Karichkovskiy Yevhen
  */
-public class IntConverter implements Converter<Integer> {
+class IntConverter implements Converter<Integer> {
 
     @Override
     public String toString(Integer value) {

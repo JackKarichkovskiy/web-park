@@ -21,8 +21,8 @@ import java.util.logging.Logger;
 import org.webpark.dao.CRUDDaoInterface;
 import org.webpark.dao.DaoConnection;
 import org.webpark.dao.annotation.Stored;
+import org.webpark.dao.annotation.utils.Converter;
 import org.webpark.dao.annotation.utils.DAOUtils;
-import org.webpark.dao.annotation.utils.converters.UUIDConverter;
 import org.webpark.dao.exception.DAOException;
 
 /**
@@ -51,16 +51,17 @@ public class MySQLDriver implements CRUDDaoInterface {
         String table = null;
         ResultSet rs;
         for (Annotation anno : entityClass.getAnnotations()) {
-            if (anno.annotationType().equals(Stored.class)) {
+            if (anno.annotationType().equals(DAOUtils.STORED_ANNO_CLASS)) {
                 table = ((Stored) anno).name();
             }
         }
         if(table == null){
             return null;
         }
-        Field primarykey = DAOUtils.getPrimaryKey(entityClass);
+        Field primaryKey = DAOUtils.getPrimaryKey(entityClass);
+        Converter pkConverter = primaryKey.getAnnotation(DAOUtils.STORED_ANNO_CLASS).converter().getConverter();
         String query = String.format("SELECT * FROM %s "
-                + "WHERE %s.%s=%s;", table, table, primarykey.getAnnotation(Stored.class).name(), new UUIDConverter().toString(id));
+                + "WHERE %s.%s=%s;", table, table, primaryKey.getAnnotation(DAOUtils.STORED_ANNO_CLASS).name(), pkConverter.toString(id));
         System.out.println(query);
 
         Connection connection = null;
@@ -74,8 +75,8 @@ public class MySQLDriver implements CRUDDaoInterface {
             while (rs.next()) {
                 HashMap<String, Object> map = new HashMap<String, Object>();
                 for (Field field : entityClass.getDeclaredFields()) {
-                    if (field.isAnnotationPresent(Stored.class)) {
-                        map.put(field.getAnnotation(Stored.class).name(), rs.getString(field.getAnnotation(Stored.class).name()));
+                    if (field.isAnnotationPresent(DAOUtils.STORED_ANNO_CLASS)) {
+                        map.put(field.getAnnotation(DAOUtils.STORED_ANNO_CLASS).name(), rs.getString(field.getAnnotation(DAOUtils.STORED_ANNO_CLASS).name()));
                     }
                 }
                 return (T) DAOUtils.<T>MapToEntity(entityClass, map);
@@ -86,9 +87,7 @@ public class MySQLDriver implements CRUDDaoInterface {
             e.printStackTrace();
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
-        } catch (IntrospectionException e) {
-            Logger.getLogger(MySQLDriver.class.getName()).log(Level.SEVERE, null, e);
-        }
+        } 
         return null;
     }
 
@@ -98,14 +97,14 @@ public class MySQLDriver implements CRUDDaoInterface {
         String table = null;
 
         //Defining the table
-        if (instance.getClass().isAnnotationPresent(Stored.class)) {
-            table = instance.getClass().getAnnotation(Stored.class).name();
+        if (instance.getClass().isAnnotationPresent(DAOUtils.STORED_ANNO_CLASS)) {
+            table = instance.getClass().getAnnotation(DAOUtils.STORED_ANNO_CLASS).name();
         }
 
         //Forming the query
         query = String.format("INSERT INTO %s VALUES(", table);
         for (Field field : instance.getClass().getDeclaredFields()) {
-            if (field.isAnnotationPresent(Stored.class)) {
+            if (field.isAnnotationPresent(DAOUtils.STORED_ANNO_CLASS)) {
                 query += DAOUtils.getConverter(field).toString(DAOUtils.getFieldValue(instance, field)) + ",";
             }
         }
@@ -134,15 +133,15 @@ public class MySQLDriver implements CRUDDaoInterface {
         String table = null;
 
         //Определения таблицы
-        if (instance.getClass().isAnnotationPresent(Stored.class)) {
-            table = instance.getClass().getAnnotation(Stored.class).name();
+        if (instance.getClass().isAnnotationPresent(DAOUtils.STORED_ANNO_CLASS)) {
+            table = instance.getClass().getAnnotation(DAOUtils.STORED_ANNO_CLASS).name();
         }
 
         //Формирование запроса
         query = String.format("UPDATE %s\nSET ", table);
         for (Field field : instance.getClass().getDeclaredFields()) {
-            if (field.isAnnotationPresent(Stored.class) && (!field.getAnnotation(Stored.class).name().equals("ID"))) {
-                query += String.format("%s=%s,", field.getAnnotation(Stored.class).name(), DAOUtils.getConverter(field).toString(DAOUtils.<T>getFieldValue(instance, field)));
+            if (field.isAnnotationPresent(DAOUtils.STORED_ANNO_CLASS) && (!field.getAnnotation(DAOUtils.STORED_ANNO_CLASS).name().equals("ID"))) {
+                query += String.format("%s=%s,", field.getAnnotation(DAOUtils.STORED_ANNO_CLASS).name(), DAOUtils.getConverter(field).toString(DAOUtils.<T>getFieldValue(instance, field)));
             }
         }
         query = query.substring(0, query.length() - 1);
@@ -168,8 +167,8 @@ public class MySQLDriver implements CRUDDaoInterface {
         String table = null;
 
         //Определения таблицы
-        if (instance.getClass().isAnnotationPresent(Stored.class)) {
-            table = instance.getClass().getAnnotation(Stored.class).name();
+        if (instance.getClass().isAnnotationPresent(DAOUtils.STORED_ANNO_CLASS)) {
+            table = instance.getClass().getAnnotation(DAOUtils.STORED_ANNO_CLASS).name();
         }
 
         query = String.format("DELETE FROM %s WHERE %s='%s';", table, DAOUtils.getPrimaryKey(instance.getClass()).getName(),

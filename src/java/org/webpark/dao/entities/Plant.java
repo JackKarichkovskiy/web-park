@@ -8,8 +8,7 @@ package org.webpark.dao.entities;
 import java.util.UUID;
 import org.webpark.dao.annotation.Primary;
 import org.webpark.dao.annotation.Stored;
-import org.webpark.dao.annotation.utils.converters.IntConverter;
-import org.webpark.dao.annotation.utils.converters.UUIDConverter;
+import org.webpark.dao.annotation.utils.converters.Converters;
 
 /**
  *
@@ -19,7 +18,7 @@ import org.webpark.dao.annotation.utils.converters.UUIDConverter;
 public class Plant {
 
     @Primary
-    @Stored(name = "id", converter = UUIDConverter.class)
+    @Stored(name = "id", converter = Converters.UUIDConverter)
     private UUID id;
 
     @Stored(name = "name")
@@ -31,7 +30,7 @@ public class Plant {
     @Stored(name = "origin")
     private String origin;
 
-    @Stored(name = "sector", converter = IntConverter.class)
+    @Stored(name = "sector", converter = Converters.IntConverter)
     private int sector;
 
     public UUID getId() {
