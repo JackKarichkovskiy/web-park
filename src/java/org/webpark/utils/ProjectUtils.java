@@ -5,6 +5,13 @@
  */
 package org.webpark.utils;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.webpark.dao.DaoConfiguration;
+
 /**
  *
  * @author Karichkovskiy Yevhen
@@ -25,5 +32,16 @@ public class ProjectUtils {
         }
 
         return obj;
+    }
+
+    public static final Properties loadProperties(String confPath) throws IOException {
+        checkNotNull(confPath);
+        
+        Properties resultProp = new Properties();
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+
+        resultProp.load(classLoader.getResourceAsStream(confPath));
+
+        return resultProp;
     }
 }

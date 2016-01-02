@@ -5,41 +5,26 @@
  */
 package org.webpark.dao;
 
-import java.io.IOException;
-import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.webpark.configuration.AbstractConfiguration;
 
 /**
  *
  * @author Karichkovskiy Yevhen
  */
-public class DaoConfiguration {
+public class DaoConfiguration extends AbstractConfiguration {
 
     private static final String DEFAULT_CONF_PATH = "dao.properties";
 
-    private static DaoConfiguration instance;
-
     public static DaoConfiguration getInstance() {
-        if (instance == null) {
-            instance = new DaoConfiguration(DEFAULT_CONF_PATH);
-        }
-        return instance;
+        return DaoConfigurationHolder.INSTANCE;
     }
 
-    private Properties daoProp;
-
-    public DaoConfiguration(String confPath) {
-        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        daoProp = new Properties();
-        try {
-            daoProp.load(classLoader.getResourceAsStream(confPath));
-        } catch (IOException ex) {
-            Logger.getLogger(DaoConfiguration.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    private DaoConfiguration(String confPath) {
+        super(confPath);
     }
 
-    public String getProperty(String propName) {
-        return daoProp.getProperty(propName);
+    private static class DaoConfigurationHolder {
+
+        private static final DaoConfiguration INSTANCE = new DaoConfiguration(DEFAULT_CONF_PATH);
     }
 }

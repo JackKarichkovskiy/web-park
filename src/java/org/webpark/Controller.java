@@ -56,18 +56,31 @@ public class Controller extends HttpServlet {
             DaoFactory factory = DaoFactory.getInstance(DaoFactory.DaoType.MYSQL);
 
             CRUDDaoInterface crudDao = factory.getCRUDDao();
-
+            
+            //INSERT
 //            Plant plant = new Plant();
 //            plant.setId(UUID.randomUUID());
-//            plant.setName("Rose");
+//            plant.setId(UUID.fromString("a6f40940-a8c0-4975-a365-c8a6e30d04c2"));
+//            plant.setName("Updated Rose");
 //            plant.setOrigin("China");
 //            plant.setColor("Red");
-//            plant.setSector(25);
+//            plant.setSector(40);
 //            try {
 //                crudDao.insert(plant);
 //            } catch (DAOException ex) {
 //                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
 //            }
+            
+            //DELETE
+            Plant delPlant = new Plant();
+            delPlant.setId(UUID.fromString("cb2cb2b1-085f-4f28-be7b-8b199e9ef8d3"));
+            try {
+                crudDao.delete(delPlant);
+            } catch (DAOException ex) {
+                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            //READ
             Plant read = null;
             try {
                 read = crudDao.read(Plant.class, UUID.fromString("a6f40940-a8c0-4975-a365-c8a6e30d04c2"));

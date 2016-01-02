@@ -14,9 +14,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.webpark.dao.annotation.Primary;
 import org.webpark.dao.annotation.Stored;
 import org.webpark.dao.exception.DAOException;
@@ -72,46 +69,35 @@ public class DAOUtils {
         }
 
         PropertyDescriptor p;
+
         try {
             p = new PropertyDescriptor(pk.getName(), instance.getClass());
-            return ((UUID) p.getReadMethod().invoke(instance, null));
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (IntrospectionException ex) {
-            Logger.getLogger(DAOUtils.class.getName()).log(Level.SEVERE, null, ex);
+            return p.getReadMethod().invoke(instance, null);
+        } catch (IntrospectionException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+            throw new DAOException(new FieldReadingException(ex));
         }
-        return null;
     }
 
     /**
      * Повертає значення поля
      *
+     * @param <T>
      * @param instance-об'єкт з якого зчитується значення
      * @param f-поле з якого потрібно зчитати
      * @return значення поля
+     * @throws org.webpark.dao.exception.DAOException
      */
-    public static <T> T getFieldValue(T instance, Field f) {
+    public static <T> Object getFieldValue(T instance, Field f) throws DAOException {
         checkNotNull(instance);
         checkNotNull(f);
 
         PropertyDescriptor p;
         try {
             p = new PropertyDescriptor(f.getName(), instance.getClass());
-            return ((T) p.getReadMethod().invoke(instance, null));
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (IntrospectionException ex) {
-            Logger.getLogger(DAOUtils.class.getName()).log(Level.SEVERE, null, ex);
+            return p.getReadMethod().invoke(instance, null);
+        } catch (IntrospectionException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+            throw new DAOException(new FieldReadingException(ex));
         }
-        return null;
     }
 
     /**
@@ -121,7 +107,7 @@ public class DAOUtils {
      * @return колекція(Map) із полями класа
      */
     public static HashMap<String, Field> getStoredFields(Class c) {
-        HashMap<String, Field> res = new HashMap<String, Field>();
+        HashMap<String, Field> res = new HashMap<>();
         Field[] fields = c.getDeclaredFields();
         for (Field field : fields) {
             Stored p = field.getAnnotation(STORED_ANNO_CLASS);
@@ -132,46 +118,6 @@ public class DAOUtils {
         return res;
     }
 
-//    /**
-//     * Зчитується значення поля як рядок
-//     *
-//     * @param instance-об'єкт з якого потрібно зчитати
-//     * @param f-поле з якого потрібно зчитати
-//     * @return рядок-значення поля
-//     */
-//    public static <T> String getStringValue(T instance, Field f) {
-//        try {
-//            PropertyDescriptor p = new PropertyDescriptor(f.getName(), instance.getClass());
-//            Class fieldClass = p.getPropertyType();
-//            if (fieldClass.getCanonicalName().equals("int")) {
-//                return ((Integer) p.getReadMethod().invoke(instance, null)).toString();
-//            }
-//            if (fieldClass.getCanonicalName().equals("double")) {
-//                return ((Double) p.getReadMethod().invoke(instance, null)).toString();
-//            }
-//            Object value = p.getReadMethod().invoke(instance, null);
-//
-//            if (value == null) {
-//                return "null";
-//            }
-//
-//            if (fieldClass.equals(String.class) || fieldClass.equals(UUID.class)) {
-//                return "\"" + value.toString() + "\"";
-//            }
-//
-//            String prefix = ""; // (isReference(f)) ? "^"+f.getType().getCanonicalName()+" : " : "";
-//            return (value != null) ? prefix + value.toString() : prefix + "NULL";
-//        } catch (IllegalArgumentException e) {
-//            e.printStackTrace();
-//        } catch (IllegalAccessException e) {
-//            e.printStackTrace();
-//        } catch (InvocationTargetException e) {
-//            e.printStackTrace();
-//        } catch (IntrospectionException ex) {
-//            Logger.getLogger(DAOUtils.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        return null;
-//    }
     /**
      * Перетворює колекцію на об'єкт заданного класу.
      *
@@ -241,22 +187,6 @@ public class DAOUtils {
         return result;
     }
 
-//    /**
-//     * Повертає список значень полів із об'єкту instance
-//     *
-//     * @param instance-об'єкт з якого будуть зчитуватись значення
-//     * @return об'єкт класу Properties зі значеннями полів
-//     */
-//    public static <T> Properties getValueList(T instance) {
-//        Properties res = new Properties();
-//        Class instanceClass = instance.getClass();
-//        HashMap<String, Field> storedFields = getStoredFields(instanceClass);
-//        for (String storedName : storedFields.keySet()) {
-//            Field f = storedFields.get(storedName);
-//            res.setProperty(storedName, getStringValue(instance, f));
-//        }
-//        return res;
-//    }
     /**
      * Використовує конвертор поля і повертає необхідний клас, згідно з
      * конвертором.
