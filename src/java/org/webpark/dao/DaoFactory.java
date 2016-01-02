@@ -15,10 +15,12 @@ import static org.webpark.utils.ProjectUtils.*;
  *
  * @author Karichkovskiy Yevhen
  */
-public class DaoFactory {
+public abstract class DaoFactory {
 
     private static final DaoConfiguration DAO_PROP = DaoConfiguration.getInstance();
 
+    public abstract CRUDDaoInterface getCRUDDao();
+    
     public enum DaoType {
 
         MYSQL("factory.mysql");

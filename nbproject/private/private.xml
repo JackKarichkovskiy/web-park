@@ -3,14 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/jack/NetBeansProjects/WebPark/src/java/org/webpark/dao/entities/Plant.java</file>
-            <file>file:/home/jack/NetBeansProjects/WebPark/src/java/org/webpark/dao/annotation/Stored.java</file>
             <file>file:/home/jack/NetBeansProjects/WebPark/src/java/org/webpark/dao/mysql/MySQLDriver.java</file>
-            <file>file:/home/jack/NetBeansProjects/WebPark/src/java/org/webpark/Controller.java</file>
-            <file>file:/home/jack/NetBeansProjects/WebPark/src/java/org/webpark/dao/DaoConnection.java</file>
-            <file>file:/home/jack/NetBeansProjects/WebPark/src/java/org/webpark/dao/annotation/utils/DAOUtils.java</file>
-            <file>file:/home/jack/NetBeansProjects/WebPark/src/java/org/webpark/dao/exception/DAOException.java</file>
-            <file>file:/home/jack/NetBeansProjects/WebPark/src/java/org/webpark/dao/CRUDDaoInterface.java</file>
         </group>
     </open-files>
 </project-private>

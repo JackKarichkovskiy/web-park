@@ -31,11 +31,23 @@ import org.webpark.dao.exception.DAOException;
  */
 public class MySQLDriver implements CRUDDaoInterface {
 
-    private DaoConnection connHolder = DaoConnection.getInstance();
+    private final DaoConnection connHolder = DaoConnection.getInstance();
 
+    private static MySQLDriver instance;
+    
+    private MySQLDriver(String dummyStr){
+    }
+    
+    public static MySQLDriver getInstance(){
+        if(instance == null){
+            return new MySQLDriver(null);
+        }
+        
+        return instance;
+    }
+    
     @Override
-    public <T> T read(Class entityClass, UUID id) throws DAOException {
-
+    public <T> T read(Class<T> entityClass, UUID id) throws DAOException {
         String table = null;
         ResultSet rs;
         for (Annotation anno : entityClass.getAnnotations()) {
@@ -43,8 +55,11 @@ public class MySQLDriver implements CRUDDaoInterface {
                 table = ((Stored) anno).name();
             }
         }
+        if(table == null){
+            return null;
+        }
         Field primarykey = DAOUtils.getPrimaryKey(entityClass);
-        String query = String.format("SELECT * FROM %s\n"
+        String query = String.format("SELECT * FROM %s "
                 + "WHERE %s.%s=%s;", table, table, primarykey.getAnnotation(Stored.class).name(), new UUIDConverter().toString(id));
         System.out.println(query);
 
@@ -71,8 +86,8 @@ public class MySQLDriver implements CRUDDaoInterface {
             e.printStackTrace();
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
-        } catch (IntrospectionException ex) {
-            Logger.getLogger(MySQLDriver.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IntrospectionException e) {
+            Logger.getLogger(MySQLDriver.class.getName()).log(Level.SEVERE, null, e);
         }
         return null;
     }
@@ -82,13 +97,13 @@ public class MySQLDriver implements CRUDDaoInterface {
         String query = null;
         String table = null;
 
-        //Определения таблицы
+        //Defining the table
         if (instance.getClass().isAnnotationPresent(Stored.class)) {
             table = instance.getClass().getAnnotation(Stored.class).name();
         }
 
-        //Формирование запроса
-        query = String.format("INSERT INTO %s\nVALUES(", table);
+        //Forming the query
+        query = String.format("INSERT INTO %s VALUES(", table);
         for (Field field : instance.getClass().getDeclaredFields()) {
             if (field.isAnnotationPresent(Stored.class)) {
                 query += DAOUtils.getConverter(field).toString(DAOUtils.getFieldValue(instance, field)) + ",";
@@ -98,7 +113,7 @@ public class MySQLDriver implements CRUDDaoInterface {
         query += ");";
         System.out.println(query);
         
-        //Выполнение запроса
+        //Executing the query
         Connection connection = null;
         try {
             connection = connHolder.getConnection();
@@ -175,7 +190,7 @@ public class MySQLDriver implements CRUDDaoInterface {
     }
 
     @Override
-    public <T> List<T> select(Class entityClass, String SQLString) throws DAOException {
+    public <T> List<T> select(Class<T> entityClass, String SQLString) throws DAOException {
         List<T> resultList = new ArrayList<T>();
         ResultSet rs;
 

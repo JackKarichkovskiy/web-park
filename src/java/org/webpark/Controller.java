@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.Context;
@@ -19,7 +20,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
+import org.webpark.dao.CRUDDaoInterface;
 import org.webpark.dao.DaoFactory;
+import org.webpark.dao.entities.Plant;
+import org.webpark.dao.exception.DAOException;
 
 /**
  *
@@ -48,8 +52,29 @@ public class Controller extends HttpServlet {
             DataSource ds = (DataSource) envCtx.lookup("jdbc/WebPark");
             // Allocate and use a connection from the pool
             Connection conn = ds.getConnection();
-            
-            DaoFactory instance = DaoFactory.getInstance(DaoFactory.DaoType.MYSQL);
+
+            DaoFactory factory = DaoFactory.getInstance(DaoFactory.DaoType.MYSQL);
+
+            CRUDDaoInterface crudDao = factory.getCRUDDao();
+
+//            Plant plant = new Plant();
+//            plant.setId(UUID.randomUUID());
+//            plant.setName("Rose");
+//            plant.setOrigin("China");
+//            plant.setColor("Red");
+//            plant.setSector(25);
+//            try {
+//                crudDao.insert(plant);
+//            } catch (DAOException ex) {
+//                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+            Plant read = null;
+            try {
+                read = crudDao.read(Plant.class, UUID.fromString("a6f40940-a8c0-4975-a365-c8a6e30d04c2"));
+            } catch (DAOException ex) {
+                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                return;
+            }
 
             try (PrintWriter out = response.getWriter()) {
                 /* TODO output your page here. You may use following sample code. */
@@ -61,8 +86,7 @@ public class Controller extends HttpServlet {
                 out.println("<body>");
                 out.println("<h1>Servlet Controller at " + request.getContextPath() + "</h1>");
                 out.println("<br>");
-                //out.println(conn.toString());
-                out.println(instance.toString());
+                out.println(read.toString());
                 out.println("</body>");
                 out.println("</html>");
             }

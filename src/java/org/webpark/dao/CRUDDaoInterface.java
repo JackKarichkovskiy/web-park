@@ -23,7 +23,7 @@ public interface CRUDDaoInterface {
      * @return result entity object from db
      * @throws DAOException - if some sql or connection problems
      */
-    public <T> T read(Class entityClass, UUID id) throws DAOException;
+    public <T> T read(Class<T> entityClass, UUID id) throws DAOException;
 
     /**
      * Inserts new data to the database.
@@ -58,5 +58,5 @@ public interface CRUDDaoInterface {
      * @return list of result entities
      * @throws DAOException - if some sql or connection problems
      */
-    public <T> List<T> select(Class entityClass, String SQLString) throws DAOException;
+    public <T> List<T> select(Class<T> entityClass, String SQLString) throws DAOException;
 }

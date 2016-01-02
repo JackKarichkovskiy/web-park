@@ -5,6 +5,7 @@
  */
 package org.webpark.dao.mysql;
 
+import org.webpark.dao.CRUDDaoInterface;
 import org.webpark.dao.DaoFactory;
 
 /**
@@ -12,5 +13,10 @@ import org.webpark.dao.DaoFactory;
  * @author Karichkovskiy Yevhen
  */
 public class MySQLDaoFactory extends DaoFactory{
+
+    @Override
+    public CRUDDaoInterface getCRUDDao() {
+        return MySQLDriver.getInstance();
+    }
     
 }
