@@ -6,8 +6,9 @@
 package org.webpark.dao;
 
 import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 import org.webpark.dao.exception.DaoFactoryNotFoundException;
+import org.webpark.dao.exception.ObjectInstantiatingException;
 import static org.webpark.utils.ProjectUtils.*;
 
 /**
@@ -47,8 +48,8 @@ public abstract class DaoFactory {
             return (DaoFactory) clazz.newInstance();
         } catch (ClassNotFoundException ex) {
             throw new DaoFactoryNotFoundException("Cannot find class " + property + " in classpath", ex);
-        } catch (Exception ex) {
-            Logger.getLogger(DaoFactory.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException | IllegalAccessException ex) {
+            Logger.getLogger(DaoFactory.class).error(null, new ObjectInstantiatingException(ex));
         }
         
         return null;

@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 import org.webpark.dao.CRUDDaoInterface;
 import org.webpark.dao.DaoConnection;
 import org.webpark.dao.annotation.Stored;

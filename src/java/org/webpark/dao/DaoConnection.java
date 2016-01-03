@@ -8,7 +8,7 @@ package org.webpark.dao;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -43,7 +43,7 @@ public class DaoConnection {
             // Look up our jdbc pool data source
             ds = (DataSource) envCtx.lookup(daoConf.getProperty(JNDI_JDBC_PARAM));
         } catch (NamingException ex) {
-            Logger.getLogger(DaoConnection.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DaoConnection.class).error(null, ex);
         }
     }
     

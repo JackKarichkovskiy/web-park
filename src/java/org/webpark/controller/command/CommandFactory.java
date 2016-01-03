@@ -5,6 +5,7 @@
  */
 package org.webpark.controller.command;
 
+import org.webpark.controller.command.concrete.Commands;
 import static org.webpark.utils.ProjectUtils.checkNotNull;
 
 /**

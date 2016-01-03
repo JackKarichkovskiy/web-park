@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.webpark.controller.command;
+package org.webpark.controller.command.concrete;
 
+import org.webpark.controller.command.Command;
 import org.webpark.controller.command.concrete.GetAllPlantsCommand;
 
 /**

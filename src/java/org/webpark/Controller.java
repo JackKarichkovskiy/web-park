@@ -10,9 +10,8 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.UUID;
 import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -43,6 +42,8 @@ public class Controller extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        Logger.getLogger(Controller.class).info("IN CONTROLLER!!!!");
+
         response.setContentType("text/html;charset=UTF-8");
         InitialContext initCtx = null;
         try {
@@ -57,7 +58,7 @@ public class Controller extends HttpServlet {
             DaoFactory factory = DaoFactory.getInstance(DaoFactory.DaoType.MYSQL);
 
             CRUDDaoInterface crudDao = factory.getCRUDDao();
-            
+
                 //INSERT
 //            Plant plant = new Plant();
 //            plant.setId(UUID.randomUUID());
@@ -89,14 +90,13 @@ public class Controller extends HttpServlet {
 //                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
 //                return;
 //            }
-            
             List<Plant> allPlants = null;
             try {
                 allPlants = crudDao.getAllEntities(Plant.class);
             } catch (DAOException ex) {
-                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Controller.class).error(null, ex);
             }
-            
+
             try (PrintWriter out = response.getWriter()) {
                 /* TODO output your page here. You may use following sample code. */
                 out.println("<!DOCTYPE html>");
@@ -114,9 +114,9 @@ public class Controller extends HttpServlet {
 
             conn.close();
         } catch (NamingException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Controller.class).error(null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Controller.class).error(null, ex);
         }
     }
 

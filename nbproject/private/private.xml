@@ -2,6 +2,12 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/home/jack/NetBeansProjects/WebPark/src/java/org/webpark/logging/Logger.java</file>
+            <file>file:/home/jack/NetBeansProjects/WebPark/web/WEB-INF/web.xml</file>
+            <file>file:/home/jack/NetBeansProjects/WebPark/src/java/org/webpark/controller/command/concrete/GetAllPlantsCommand.java</file>
+            <file>file:/home/jack/NetBeansProjects/WebPark/src/java/org/webpark/logging/ContextListener.java</file>
+            <file>file:/home/jack/NetBeansProjects/WebPark/web/WEB-INF/classes/log4j.properties</file>
+        </group>
     </open-files>
 </project-private>
