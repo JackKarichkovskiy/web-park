@@ -6,7 +6,6 @@
 package org.webpark.controller.command;
 
 import org.webpark.controller.command.concrete.Commands;
-import static org.webpark.utils.ProjectUtils.checkNotNull;
 
 /**
  *
@@ -14,7 +13,7 @@ import static org.webpark.utils.ProjectUtils.checkNotNull;
  */
 public class CommandFactory {
 
-    private static CommandFactory instance = new CommandFactory(null);
+    private static final CommandFactory INSTANCE = new CommandFactory(null);
 
     private static final String DEFAULT_PAGE = "index.html";
     
@@ -25,7 +24,7 @@ public class CommandFactory {
             -> new CommandResult(DEFAULT_PAGE, CommandResult.JumpType.IGNORE);
 
     public static CommandFactory getInstance() {
-        return instance;
+        return INSTANCE;
     }
 
     private CommandFactory(String dummyStr) {

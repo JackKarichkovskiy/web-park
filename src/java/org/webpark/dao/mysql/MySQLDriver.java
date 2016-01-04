@@ -5,7 +5,6 @@
  */
 package org.webpark.dao.mysql;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -15,11 +14,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
-import java.util.logging.Level;
-import org.apache.log4j.Logger;
 import org.webpark.dao.CRUDDaoInterface;
 import org.webpark.dao.DaoConnection;
-import org.webpark.dao.annotation.Stored;
 import org.webpark.dao.annotation.utils.Converter;
 import org.webpark.dao.annotation.utils.DAOUtils;
 import org.webpark.configuration.exception.ConfigurationPropertyNotFoundException;
