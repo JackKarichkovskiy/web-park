@@ -6,8 +6,6 @@
 package org.webpark.controller.filter;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -19,22 +17,22 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import org.webpark.configuration.AppConfiguration;
+import org.apache.log4j.Logger;
+import org.webpark.controller.command.WebTags;
 import org.webpark.controller.session.SessionStorage;
-import static org.webpark.utils.ProjectUtils.checkNotNull;
+import org.webpark.controller.uri.UriBuilder;
 
 /**
  *
  * @author Karichkovskiy Yevhen
  */
-@WebFilter(filterName = "/AuthenticationFilter")
+@WebFilter(filterName = "/AuthenticationFilter", urlPatterns = "/secured/*")
 public class AuthenticationFilter implements Filter {
 
-    private static final String DEFAULT_PAGE_TAG = "init_page";
-    private static final String DEFAULT_PAGE = AppConfiguration.getInstance().getProperty(DEFAULT_PAGE_TAG);
+    private static final String DEFAULT_PAGE = UriBuilder.getUri("init_page");
 
     private static final SessionStorage STORAGE = SessionStorage.getInstance();
-    
+
     private ServletContext context;
 
     @Override
@@ -49,16 +47,24 @@ public class AuthenticationFilter implements Filter {
 
         String uri = req.getRequestURI();
         HttpSession session = req.getSession(false);
+        if (session == null) {
+            Logger.getLogger(AuthenticationFilter.class).info("Filter the uri " + uri);
+        } else {
+            Logger.getLogger(AuthenticationFilter.class).info("Filter the uri " + uri + " for user "  + session.getAttribute(WebTags.USER_TAG)
+                    + " with sessionID " + session.getId());
+        }
 
         if (session == null || !STORAGE.containsSession(session)) {
-            res.sendRedirect(DEFAULT_PAGE);
-        }else{
+            String redirect = DEFAULT_PAGE;
+            Logger.getLogger(AuthenticationFilter.class).info("Redirected uri " + uri + " to the " + redirect);
+            res.sendRedirect(redirect);
+        } else {
             chain.doFilter(request, response);
         }
     }
 
     @Override
     public void destroy() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
     }
 }

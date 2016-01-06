@@ -5,6 +5,7 @@
  */
 package org.webpark.dao.mysql;
 
+import com.sun.istack.internal.logging.Logger;
 import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -63,7 +64,7 @@ public class MySQLDriver implements CRUDDaoInterface {
             throw new DAOException(new ConfigurationPropertyNotFoundException());
         }
         String query = String.format(readQuery, table, table, primaryKey.getAnnotation(DAOUtils.STORED_ANNO_CLASS).name(), pkConverter.toString(id));
-        System.out.println(query);
+        Logger.getLogger(MySQLDriver.class).info(query);
 
         Connection connection = null;
         try {
@@ -114,7 +115,7 @@ public class MySQLDriver implements CRUDDaoInterface {
         }
         String query = String.format(insertQuery, table, values);
 
-        System.out.println(query);
+        Logger.getLogger(MySQLDriver.class).info(query);
 
         //Executing the query
         Connection connection = null;
@@ -166,7 +167,7 @@ public class MySQLDriver implements CRUDDaoInterface {
         }
         String query = String.format(updateQuery, table, updatedValues, table, pkName, convertedPkValue);
 
-        System.out.println(query);
+        Logger.getLogger(MySQLDriver.class).info(query);
 
         Connection connection = null;
 
@@ -205,7 +206,7 @@ public class MySQLDriver implements CRUDDaoInterface {
         }
         String query = String.format(deleteQuery, table, pkName,
                 convertedPkValue);
-        System.out.println(query);
+        Logger.getLogger(MySQLDriver.class).info(query);
 
         Connection connection = null;
         try {

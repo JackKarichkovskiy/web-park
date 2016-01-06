@@ -20,7 +20,9 @@ public abstract class DaoFactory {
     private static final DaoConfiguration DAO_PROP = DaoConfiguration.getInstance();
 
     public abstract CRUDDaoInterface getCRUDDao();
-    
+
+    public abstract UserDaoServiceInterface getUserDao();
+
     public enum DaoType {
 
         MYSQL("factory.mysql");
@@ -34,6 +36,20 @@ public abstract class DaoFactory {
         public String getParamName() {
             return paramName;
         }
+    }
+
+    public static DaoFactory getInstance(String type) {
+        checkNotNull(type);
+        
+        DaoType daoType;
+        try {
+            daoType = DaoType.valueOf(type);
+        } catch (IllegalArgumentException ex) {
+            Logger.getLogger(DaoFactory.class).error(null, ex);
+            return null;
+        }
+        
+        return getInstance(daoType);
     }
 
     public static DaoFactory getInstance(DaoType type) {
@@ -51,7 +67,7 @@ public abstract class DaoFactory {
         } catch (InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(DaoFactory.class).error(null, new ObjectInstantiatingException(ex));
         }
-        
+
         return null;
     }
 }

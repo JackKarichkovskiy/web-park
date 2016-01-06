@@ -5,8 +5,10 @@
  */
 package org.webpark.dao.annotation.utils.converters;
 
+import java.util.Date;
 import java.util.UUID;
 import org.webpark.dao.annotation.utils.Converter;
+import org.webpark.dao.entities.User.Roles;
 
 /**
  *
@@ -17,6 +19,8 @@ public enum Converters {
     UUIDConverter(UUID.class, new UUIDConverter()),
     IntConverter(Integer.class, new IntConverter()),
     BooleanConverter(Boolean.class, new BooleanConverter()),
+    DateConverter(Date.class, new DateConverter()),
+    RolesConverter(Roles.class, new RolesConverter()),
     ;
     
     private final Converter converter;
@@ -26,6 +30,16 @@ public enum Converters {
     Converters(Class valueType, Converter converter){
         this.converter = converter;
         this.valueType = valueType;
+    }
+    
+    public static Converters getConverterByArgType(Class clazz){
+        for(Converters converter : Converters.values()){
+            if(converter.getValueType().equals(clazz)){
+                return converter;
+            }
+        }
+        
+        return null;
     }
     
     public Converter getConverter(){

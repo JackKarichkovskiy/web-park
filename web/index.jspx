@@ -16,7 +16,7 @@
         <jsp:attribute name="lang">EN</jsp:attribute>
         <jsp:body>
             <div>
-                <jsp:include page="entry/login.jspx"/>
+                <jsp:include page="secured/entry/login.jspx"/>
             </div>
         </jsp:body>
     </jsp:element>

@@ -6,6 +6,7 @@
 package org.webpark.controller.command;
 
 import org.webpark.controller.command.concrete.Commands;
+import org.webpark.controller.uri.UriBuilder;
 
 /**
  *
@@ -14,14 +15,10 @@ import org.webpark.controller.command.concrete.Commands;
 public class CommandFactory {
 
     private static final CommandFactory INSTANCE = new CommandFactory(null);
-
-    private static final String DEFAULT_PAGE = "index.html";
     
-    private static final Command EMPTY_COMMAND = (request, response) 
-            -> new CommandResult(DEFAULT_PAGE, CommandResult.JumpType.FORWARD);
-    
-    private static final Command IGNORE_COMMAND = (request, response) 
-            -> new CommandResult(DEFAULT_PAGE, CommandResult.JumpType.IGNORE);
+    private static final String INIT_PAGE = UriBuilder.getUri("init_page");
+    private static final Command IGNORE_COMMAND = (request, response)
+            -> new CommandResult(INIT_PAGE, CommandResult.JumpType.REDIRECT);
 
     public static CommandFactory getInstance() {
         return INSTANCE;
@@ -32,17 +29,17 @@ public class CommandFactory {
     }
 
     public Command getCommand(String commandName) {
-        if(commandName == null){
+        if (commandName == null) {
             return IGNORE_COMMAND;
         }
-        
+
         for (Commands command : Commands.values()) {
             if (commandName.equals(command.getCommandName())) {
-                return command.getCommand();
+                return new CommandProtectionProxy(command.getCommand());
             }
         }
-        
-        return EMPTY_COMMAND;
+
+        return IGNORE_COMMAND;
     }
 
     public Command getCommand(Commands command) {

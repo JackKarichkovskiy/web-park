@@ -12,8 +12,9 @@
         <jsp:attribute name="lang">EN</jsp:attribute>
         <jsp:body>
             <jsp:scriptlet>
-                String message = "Server error";
-                response.sendError(500, message);
+                String message = (String) request.getAttribute("exMessage");
+                Integer errorCode = (Integer) request.getAttribute("errorCode");
+                response.sendError(errorCode, message);
             </jsp:scriptlet>
         </jsp:body>
     </jsp:element>

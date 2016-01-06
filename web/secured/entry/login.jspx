@@ -12,9 +12,9 @@
     <jsp:element name="text">
         <jsp:attribute name="lang">EN</jsp:attribute>
         <jsp:body>
-            <form method="POST" action="Controller?command=logIn">
+            <form method="POST" action="./Controller?command=logIn">
                 <h3>Welcome, please login</h3>
-                <span>Login:</span><input name="user" type="text"/><br/>
+                <span>Login:</span><input name="username" type="text"/><br/>
                 <span>Password:</span><input name="password" type="password"/><br/>
                 <input value="Log In" type="submit"/><br/>
             </form>

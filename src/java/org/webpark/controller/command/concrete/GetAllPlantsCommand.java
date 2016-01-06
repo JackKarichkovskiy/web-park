@@ -11,29 +11,31 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.webpark.controller.command.Command;
 import org.webpark.controller.command.CommandResult;
+import org.webpark.controller.command.WebTags;
+import org.webpark.controller.uri.UriBuilder;
+import org.webpark.dao.AppDaoFactory;
 import org.webpark.dao.entities.Plant;
 import org.webpark.dao.exception.DAOException;
-import org.webpark.dao.mysql.MySQLDriver;
 
 /**
  *
  * @author Karichkovskiy Yevhen
  */
+
 class GetAllPlantsCommand implements Command{
     private static final Class<?> PLANT_CLASS = Plant.class;
-    private static final String RESULT_PAGE = "./index.html";
-    private static final String ALL_PLANTS_ATTR = "allPlants";
+    private static final String DEFAULT_PAGE = UriBuilder.getUri("init_page");
     
     @Override
     public CommandResult execute(HttpServletRequest request, HttpServletResponse response) {
         try {
-            List<?> allPlants = MySQLDriver.getInstance().getAllEntities(PLANT_CLASS);
-            request.setAttribute(ALL_PLANTS_ATTR, allPlants);
+            List<?> allPlants = AppDaoFactory.getInstance().getCRUDDao().getAllEntities(PLANT_CLASS);
+            request.setAttribute(WebTags.ALL_PLANTS_TAG, allPlants);
         } catch (DAOException ex) {
             Logger.getLogger(GetAllPlantsCommand.class.getName()).error(null, ex);
         }
         
-        return new CommandResult(RESULT_PAGE, CommandResult.JumpType.FORWARD);
+        return new CommandResult(DEFAULT_PAGE, CommandResult.JumpType.FORWARD);
     }
     
 }

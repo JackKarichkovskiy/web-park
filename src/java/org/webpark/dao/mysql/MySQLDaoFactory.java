@@ -7,6 +7,8 @@ package org.webpark.dao.mysql;
 
 import org.webpark.dao.CRUDDaoInterface;
 import org.webpark.dao.DaoFactory;
+import org.webpark.dao.UserDaoServiceInterface;
+import org.webpark.dao.mysql.user.MySQLUserDaoService;
 
 /**
  *
@@ -17,6 +19,11 @@ public class MySQLDaoFactory extends DaoFactory{
     @Override
     public CRUDDaoInterface getCRUDDao() {
         return MySQLDriver.getInstance();
+    }
+
+    @Override
+    public UserDaoServiceInterface getUserDao() {
+       return MySQLUserDaoService.getInstance();
     }
     
 }

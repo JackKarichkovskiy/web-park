@@ -26,18 +26,16 @@ public class SessionStorage {
         return SessionStorageHolder.INSTANCE;
     }
 
+    public synchronized boolean containsSession(HttpSession session) {
+        return containsSession(session.getId());
+    }
+
     public synchronized boolean containsSession(String sessionId) {
         checkNotNull(sessionId);
 
         return sessions.containsKey(sessionId);
     }
-
-    public synchronized boolean containsSession(HttpSession session) {
-        checkNotNull(session);
-
-        return sessions.containsKey(session.getId());
-    }
-
+    
     public synchronized HttpSession getSession(String sessionId) {
         checkNotNull(sessionId);
 
@@ -50,6 +48,18 @@ public class SessionStorage {
         }
 
         sessions.put(session.getId(), session);
+    }
+    
+    public synchronized void removeSession(HttpSession session){
+        removeSession(session.getId());
+    }
+    
+    public synchronized void removeSession(String sessionId){
+        if (sessionId == null) {
+            return;
+        }
+        
+        sessions.remove(sessionId);
     }
 
     private static class SessionStorageHolder {

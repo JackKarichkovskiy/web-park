@@ -13,6 +13,7 @@ import org.webpark.controller.command.Command;
  */
 public enum Commands {
     GET_PLANTS_LIST("getPlants", new GetAllPlantsCommand()),
+    LOG_IN("logIn", new LogInCommand()),
     ;
     
     private final String commandName;
