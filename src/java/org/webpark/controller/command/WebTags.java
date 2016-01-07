@@ -14,4 +14,6 @@ public interface WebTags {
     String PASSWORD_TAG = "password";
     String USER_TAG = "user";
     String ALL_PLANTS_TAG = "allPlants";
+    String ERROR_MESSAGE_TAG = "exMessage";
+    String ERROR_CODE_TAG = "errorCode";
 }

@@ -27,8 +27,8 @@ import org.webpark.dao.exception.DAOException;
 @RolesAllowed(User.Roles.GUEST)
 class LogInCommand implements Command{
     
-    private static final String ERROR_PAGE = UriBuilder.getUri("error_page");
-    private static final String ALL_PLANT_PAGE = UriBuilder.getUri("all_plants");
+    private static final String ERROR_PAGE = UriBuilder.getUri("error_page", CommandResult.JumpType.FORWARD);
+    private static final String ALL_PLANT_PAGE = UriBuilder.getUri("all_plants", CommandResult.JumpType.FORWARD);
     
     @Override
     public CommandResult execute(HttpServletRequest request, HttpServletResponse response) {
@@ -44,6 +44,8 @@ class LogInCommand implements Command{
             user = AppDaoFactory.getInstance().getUserDao().getUserByUsernameAndPassword(username, password);
         } catch (DAOException ex) {
             Logger.getLogger(LogInCommand.class).error(null, ex);
+            request.setAttribute(WebTags.ERROR_MESSAGE_TAG, "Database connection error");
+            request.setAttribute(WebTags.ERROR_CODE_TAG, 500);
             return new CommandResult(ERROR_PAGE, CommandResult.JumpType.FORWARD);
         }
         
@@ -51,7 +53,7 @@ class LogInCommand implements Command{
             HttpSession session = request.getSession(true);
             SessionStorage.getInstance().addSession(session);
             session.setAttribute(USER_TAG, user);
-            return new CommandResult(ALL_PLANT_PAGE, CommandResult.JumpType.REDIRECT);
+            return new CommandResult(ALL_PLANT_PAGE, CommandResult.JumpType.FORWARD);
         }else{
             return new CommandResult(null, CommandResult.JumpType.IGNORE);
         }

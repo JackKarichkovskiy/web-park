@@ -5,7 +5,6 @@
  */
 package org.webpark.dao.mysql;
 
-import com.sun.istack.internal.logging.Logger;
 import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -15,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
+import org.apache.log4j.Logger;
 import org.webpark.dao.CRUDDaoInterface;
 import org.webpark.dao.DaoConnection;
 import org.webpark.dao.annotation.utils.Converter;
@@ -260,6 +260,8 @@ public class MySQLDriver implements CRUDDaoInterface {
             throw new DAOException(new ConfigurationPropertyNotFoundException());
         }
         String query = String.format(getAllQuery, table);
+        
+        Logger.getLogger(MySQLDriver.class).info(query);
         
         return select(entityClass, query);
     }

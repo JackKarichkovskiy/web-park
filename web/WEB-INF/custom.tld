@@ -1,0 +1,16 @@
+ 
+<taglib>
+    <tlib-version>1.0</tlib-version>
+    <jsp-version>2.0</jsp-version>
+    <short-name>Custom TLD</short-name>
+    <tag>
+        <name>allPlants</name>
+        <tag-class>org.webpark.tag.AllPlantsTag</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <name>title</name>
+            <required>false</required>
+            <fragment>false</fragment>
+        </attribute>
+    </tag>
+</taglib>

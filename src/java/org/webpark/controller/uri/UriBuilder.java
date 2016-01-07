@@ -6,6 +6,7 @@
 package org.webpark.controller.uri;
 
 import org.webpark.configuration.AppConfiguration;
+import org.webpark.controller.command.CommandResult;
 
 /**
  *
@@ -25,7 +26,16 @@ public class UriBuilder {
     private static final String ALL_PLANTS_PAGE = AppConfiguration.getInstance().getProperty(ALL_PLANTS_TAG);
 
     public static String getUri(String uriName) {
-        StringBuilder resultUri = new StringBuilder(APP_NAME + "/");
+        return getUri(uriName, CommandResult.JumpType.REDIRECT);
+    }
+    
+    public static String getUri(String uriName, CommandResult.JumpType jumpType) {
+        StringBuffer resultUri;
+        if (jumpType.equals(CommandResult.JumpType.REDIRECT)) {
+            resultUri = new StringBuffer(APP_NAME + "/");
+        }else{
+            resultUri = new StringBuffer("");
+        } 
 
         switch (uriName) {
             case ACCESS_DENIED_TAG:

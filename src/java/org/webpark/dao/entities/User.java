@@ -22,7 +22,7 @@ public class User {
     private UUID id;
     
     @Stored(name = "username")
-    private String userName;
+    private String username;
     
     @Stored(name = "password")
     private String password;
@@ -44,12 +44,12 @@ public class User {
         this.id = id;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -86,7 +86,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" + "id=" + id + ", userName=" + userName + ", password=" + password + ", email=" + email + ", createTime=" + createTime + ", role=" + role + '}';
+        return "User{" + "id=" + id + ", userName=" + username + ", password=" + password + ", email=" + email + ", createTime=" + createTime + ", role=" + role + '}';
     }
     
     public enum Roles{

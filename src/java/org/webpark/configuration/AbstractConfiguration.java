@@ -7,7 +7,6 @@ package org.webpark.configuration;
 
 import java.io.IOException;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.apache.log4j.Logger;
 import org.webpark.configuration.exception.ConfigurationLoadingException;
 import org.webpark.dao.DaoConfiguration;
