@@ -4,6 +4,7 @@
     Author     : Karichkovskiy Yevhen
 --%>
 
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="ex" uri="WEB-INF/custom.tld"%>
 <!DOCTYPE html>
