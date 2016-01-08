@@ -7,27 +7,34 @@ package org.webpark.configuration;
 
 import java.io.IOException;
 import java.util.Properties;
+import java.util.ResourceBundle;
 import org.apache.log4j.Logger;
 import org.webpark.configuration.exception.ConfigurationLoadingException;
 import org.webpark.dao.DaoConfiguration;
+import org.webpark.locale.AppBundleFactory;
 import org.webpark.utils.ProjectUtils;
 
 /**
  *
  * @author Karichkovskiy Yevhen
  */
-public abstract class AbstractConfiguration implements Configuration{
-    
+public abstract class AbstractConfiguration implements Configuration {
+
+    private static final String ERROR_CONF_LOAD_TAG = "log.conf_loading_error";
+    private static final ResourceBundle BUNDLE = AppBundleFactory.getInstance().getAppBundle();
+
     protected Properties daoProp;
-    
-    protected AbstractConfiguration(String confPath){
+
+    protected AbstractConfiguration(String confPath) {
         try {
             daoProp = ProjectUtils.loadProperties(confPath);
         } catch (IOException ex) {
-            Logger.getLogger(DaoConfiguration.class).error(null, new ConfigurationLoadingException(ex));
+            Logger.getLogger(DaoConfiguration.class).
+                    error(String.format(BUNDLE.getString(ERROR_CONF_LOAD_TAG), confPath),
+                            new ConfigurationLoadingException(ex));
         }
     }
-    
+
     @Override
     public String getProperty(String propName) {
         return daoProp.getProperty(propName);

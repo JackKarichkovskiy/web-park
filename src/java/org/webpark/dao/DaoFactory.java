@@ -5,10 +5,11 @@
  */
 package org.webpark.dao;
 
-import java.util.logging.Level;
+import java.util.ResourceBundle;
 import org.apache.log4j.Logger;
 import org.webpark.dao.exception.DaoFactoryNotFoundException;
 import org.webpark.dao.exception.ObjectInstantiatingException;
+import org.webpark.locale.AppBundleFactory;
 import static org.webpark.utils.ProjectUtils.*;
 
 /**
@@ -17,6 +18,12 @@ import static org.webpark.utils.ProjectUtils.*;
  */
 public abstract class DaoFactory {
 
+    private static final String DAO_TYPE_ERROR_TAG = "log.dao_type_error";
+    private static final String DAO_TYPE_ABSENT_ERROR_TAG = "log.dao_type_absent_error";
+    private static final String CLASS_NOT_FOUND_ERROR_TAG = "log.class_not_found_error";
+    private static final String INSTANTIATING_OBJ_ERROR_TAG = "log.object_instantiating_error";
+    private static final ResourceBundle BUNDLE = AppBundleFactory.getInstance().getAppBundle();
+    
     private static final DaoConfiguration DAO_PROP = DaoConfiguration.getInstance();
 
     public abstract CRUDDaoInterface getCRUDDao();
@@ -45,7 +52,8 @@ public abstract class DaoFactory {
         try {
             daoType = DaoType.valueOf(type);
         } catch (IllegalArgumentException ex) {
-            Logger.getLogger(DaoFactory.class).error(null, ex);
+            String errorMessage = String.format(BUNDLE.getString(DAO_TYPE_ERROR_TAG), type);
+            Logger.getLogger(DaoFactory.class).error(errorMessage, ex);
             return null;
         }
         
@@ -57,15 +65,18 @@ public abstract class DaoFactory {
 
         String property = DAO_PROP.getProperty(type.getParamName());
         if (property == null) {
-            throw new DaoFactoryNotFoundException("This dao type is absent in dao properties file");
+            String errorMessage = String.format(BUNDLE.getString(DAO_TYPE_ABSENT_ERROR_TAG), type);
+            throw new DaoFactoryNotFoundException(errorMessage);
         }
         try {
             Class clazz = Class.forName(property);
             return (DaoFactory) clazz.newInstance();
         } catch (ClassNotFoundException ex) {
-            throw new DaoFactoryNotFoundException("Cannot find class " + property + " in classpath", ex);
+            String errorMessage = String.format(BUNDLE.getString(CLASS_NOT_FOUND_ERROR_TAG), property);
+            throw new DaoFactoryNotFoundException(errorMessage, ex);
         } catch (InstantiationException | IllegalAccessException ex) {
-            Logger.getLogger(DaoFactory.class).error(null, new ObjectInstantiatingException(ex));
+            String errorMessage = String.format(BUNDLE.getString(INSTANTIATING_OBJ_ERROR_TAG), property);
+            Logger.getLogger(DaoFactory.class).error(errorMessage, new ObjectInstantiatingException(ex));
         }
 
         return null;

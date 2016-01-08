@@ -7,12 +7,14 @@ package org.webpark.dao;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import org.apache.log4j.Logger;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+import org.webpark.locale.AppBundleFactory;
 
 /**
  *
@@ -21,6 +23,8 @@ import javax.sql.DataSource;
 public class DaoConnection {
     private static DaoConnection instance;
     
+    private static final String JDBC_POOL_LOOKUP_ERROR_TAG = "log.pool_lookup_error";
+    private static final ResourceBundle BUNDLE = AppBundleFactory.getInstance().getAppBundle();
     private static final String ENV_PARAM = "jndi.env";
     private static final String JNDI_JDBC_PARAM = "jndi.jdbc";
     
@@ -43,7 +47,8 @@ public class DaoConnection {
             // Look up our jdbc pool data source
             ds = (DataSource) envCtx.lookup(daoConf.getProperty(JNDI_JDBC_PARAM));
         } catch (NamingException ex) {
-            Logger.getLogger(DaoConnection.class).error(null, ex);
+            String errorMessage = BUNDLE.getString(JDBC_POOL_LOOKUP_ERROR_TAG);
+            Logger.getLogger(DaoConnection.class).error(errorMessage, ex);
         }
     }
     

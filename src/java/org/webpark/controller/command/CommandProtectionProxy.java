@@ -5,6 +5,7 @@
  */
 package org.webpark.controller.command;
 
+import java.util.ResourceBundle;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -12,6 +13,7 @@ import org.apache.log4j.Logger;
 import org.webpark.controller.uri.UriBuilder;
 import org.webpark.dao.entities.User;
 import org.webpark.dao.entities.User.Roles;
+import org.webpark.locale.AppBundleFactory;
 import static org.webpark.utils.ProjectUtils.checkNotNull;
 
 /**
@@ -20,6 +22,8 @@ import static org.webpark.utils.ProjectUtils.checkNotNull;
  */
 class CommandProtectionProxy implements Command {
 
+    private static final String NEW_GUEST_TAG = "log.new_guest";
+    private static final ResourceBundle BUNDLE = AppBundleFactory.getInstance().getAppBundle();
     private static final String ACCESS_PAGE_TAG = "access_denied_page";
     private static final String ACCESS_PAGE = UriBuilder.getUri(ACCESS_PAGE_TAG);
     private static final Class<RolesAllowed> SECURE_ANNO_CLASS = RolesAllowed.class;
@@ -42,7 +46,9 @@ class CommandProtectionProxy implements Command {
             user = new User();
             user.setRole(Roles.GUEST);
             session.setAttribute(WebTags.USER_TAG, user);
-            Logger.getLogger(CommandProtectionProxy.class).info("New GUEST try to execute command " + command.getClass().getSimpleName());
+            Logger.getLogger(CommandProtectionProxy.class).
+                    info(String.format(BUNDLE.getString(NEW_GUEST_TAG), 
+                            command.getClass().getSimpleName()));
         }
 
         if (!commandClass.isAnnotationPresent(SECURE_ANNO_CLASS)) {

@@ -8,6 +8,7 @@ package org.webpark.tag;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.List;
+import java.util.ResourceBundle;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,6 +23,7 @@ import org.webpark.controller.uri.UriBuilder;
 import org.webpark.dao.AppDaoFactory;
 import org.webpark.dao.entities.Plant;
 import org.webpark.dao.exception.DAOException;
+import org.webpark.locale.AppBundleFactory;
 
 /**
  *
@@ -29,6 +31,8 @@ import org.webpark.dao.exception.DAOException;
  */
 public class AllPlantsTag extends SimpleTagSupport {
 
+    private static final String DATABASE_CONN_ERROR = "log.database_conn_error";
+    private static final ResourceBundle BUNDLE = AppBundleFactory.getInstance().getAppBundle();
     private static final Class<Plant> PLANT_CLASS = Plant.class;
     private static final String ERROR_PAGE = UriBuilder.getUri("error_page", CommandResult.JumpType.FORWARD);
     
@@ -44,10 +48,11 @@ public class AllPlantsTag extends SimpleTagSupport {
         try {
             allPlants = AppDaoFactory.getInstance().getCRUDDao().getAllEntities(PLANT_CLASS);
         } catch (DAOException ex) {
-            Logger.getLogger(AllPlantsTag.class).error(null, ex);
+            String errorMessage = BUNDLE.getString(DATABASE_CONN_ERROR);
+            Logger.getLogger(AllPlantsTag.class).error(errorMessage, ex);
             PageContext pageContext = (PageContext) getJspContext();
             HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
-            request.setAttribute(WebTags.ERROR_MESSAGE_TAG, "Database connection error");
+            request.setAttribute(WebTags.ERROR_MESSAGE_TAG, errorMessage);
             request.setAttribute(WebTags.ERROR_CODE_TAG, 500);
             HttpServletResponse response = (HttpServletResponse) pageContext.getResponse();
             try {

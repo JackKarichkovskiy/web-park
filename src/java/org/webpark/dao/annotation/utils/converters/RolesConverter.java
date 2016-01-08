@@ -5,9 +5,11 @@
  */
 package org.webpark.dao.annotation.utils.converters;
 
+import java.util.ResourceBundle;
 import org.apache.log4j.Logger;
 import org.webpark.dao.annotation.utils.Converter;
 import org.webpark.dao.entities.User.Roles;
+import org.webpark.locale.AppBundleFactory;
 
 /**
  *
@@ -15,6 +17,9 @@ import org.webpark.dao.entities.User.Roles;
  */
 public class RolesConverter implements Converter<Roles> {
 
+    private static final String ROLE_CONVERT_ERROR_TAG = "log.role_convert_error";
+    private static final ResourceBundle BUNDLE = AppBundleFactory.getInstance().getAppBundle();
+    
     @Override
     public String toString(Roles value) {
         if (value == null) {
@@ -32,7 +37,8 @@ public class RolesConverter implements Converter<Roles> {
         try {
             return Roles.valueOf(str);
         } catch (IllegalArgumentException ex) {
-            Logger.getLogger(Roles.class).error(null, ex);
+            String errorMessage = String.format(BUNDLE.getString(ROLE_CONVERT_ERROR_TAG), str);
+            Logger.getLogger(Roles.class).error(errorMessage, ex);
             return null;
         }
     }
