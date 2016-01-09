@@ -13,6 +13,6 @@
     </head>
     <body>
         <h3>Access denied</h3>
-        <a href="./index.jspx">Main page</a>
+        <a href="./index.jsp">Main page</a>
     </body>
 </html>

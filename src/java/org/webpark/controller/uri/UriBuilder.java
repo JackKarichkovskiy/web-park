@@ -21,7 +21,7 @@ public class UriBuilder {
     private static final String ACCESS_DENIED_TAG = "access_denied_page";
     private static final String ACCESS_DENIED_PAGE = AppConfiguration.getInstance().getProperty(ACCESS_DENIED_TAG);
     private static final String ERROR_PAGE_TAG = "error_page";
-    private static final String ERROR_PAGE = AppConfiguration.getInstance().getProperty(ACCESS_DENIED_TAG);
+    private static final String ERROR_PAGE = AppConfiguration.getInstance().getProperty(ERROR_PAGE_TAG);
     private static final String ALL_PLANTS_TAG = "all_plants";
     private static final String ALL_PLANTS_PAGE = AppConfiguration.getInstance().getProperty(ALL_PLANTS_TAG);
 

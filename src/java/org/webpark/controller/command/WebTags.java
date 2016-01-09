@@ -16,4 +16,9 @@ public interface WebTags {
     String ALL_PLANTS_TAG = "allPlants";
     String ERROR_MESSAGE_TAG = "exMessage";
     String ERROR_CODE_TAG = "errorCode";
+    String SESSION_LANG_TAG = "lang";
+    String SESSION_LOCALE_TAG = "locale";
+    String LANGUAGE_SELECT_TAG = "language";
+    String LANGUAGE_FORM_TAG = "langform";
+    String CURRENT_URI_TAG = "currentURI";
 }

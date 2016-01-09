@@ -20,8 +20,7 @@ import org.webpark.utils.ProjectUtils;
  */
 public abstract class AbstractConfiguration implements Configuration {
 
-    private static final String ERROR_CONF_LOAD_TAG = "log.conf_loading_error";
-    private static final ResourceBundle BUNDLE = AppBundleFactory.getInstance().getAppBundle();
+    private static final String ERROR_CONF_LOAD = "Some problems with loading config file %s";
 
     protected Properties daoProp;
 
@@ -30,7 +29,7 @@ public abstract class AbstractConfiguration implements Configuration {
             daoProp = ProjectUtils.loadProperties(confPath);
         } catch (IOException ex) {
             Logger.getLogger(DaoConfiguration.class).
-                    error(String.format(BUNDLE.getString(ERROR_CONF_LOAD_TAG), confPath),
+                    error(String.format(ERROR_CONF_LOAD, confPath),
                             new ConfigurationLoadingException(ex));
         }
     }

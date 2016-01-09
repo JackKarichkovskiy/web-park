@@ -5,13 +5,13 @@
  */
 package org.webpark.dao.mysql.user;
 
-import com.sun.istack.internal.logging.Logger;
 import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
+import org.apache.log4j.Logger;
 import org.webpark.configuration.exception.ConfigurationPropertyNotFoundException;
 import org.webpark.dao.AppDaoFactory;
 import org.webpark.dao.DaoConnection;

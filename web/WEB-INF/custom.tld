@@ -13,4 +13,9 @@
             <fragment>false</fragment>
         </attribute>
     </tag>
+    <tag>
+        <name>lang</name>
+        <tag-class>org.webpark.tag.LanguageTag</tag-class>
+        <body-content>empty</body-content>
+    </tag>
 </taglib>

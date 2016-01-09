@@ -23,7 +23,7 @@ import org.webpark.controller.command.CommandResult;
 public class Controller extends HttpServlet {
 
     private static final String COMMAND_PARAM = "command";
-
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
