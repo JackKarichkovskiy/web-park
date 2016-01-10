@@ -5,6 +5,7 @@
  */
 package org.webpark.dao;
 
+import java.util.List;
 import org.webpark.dao.entities.User;
 import org.webpark.dao.exception.DAOException;
 
@@ -15,5 +16,7 @@ import org.webpark.dao.exception.DAOException;
 public interface UserDaoServiceInterface {
     
     public User getUserByUsernameAndPassword(String login, String password) throws DAOException;
+    
+    public List<User> getAllForesters() throws DAOException;
     
 }

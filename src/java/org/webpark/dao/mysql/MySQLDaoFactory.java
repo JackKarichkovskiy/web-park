@@ -7,6 +7,7 @@ package org.webpark.dao.mysql;
 
 import org.webpark.dao.CRUDDaoInterface;
 import org.webpark.dao.DaoFactory;
+import org.webpark.dao.InstructionDaoServiceInterface;
 import org.webpark.dao.UserDaoServiceInterface;
 import org.webpark.dao.mysql.user.MySQLUserDaoService;
 
@@ -24,6 +25,11 @@ public class MySQLDaoFactory extends DaoFactory{
     @Override
     public UserDaoServiceInterface getUserDao() {
        return MySQLUserDaoService.getInstance();
+    }
+
+    @Override
+    public InstructionDaoServiceInterface getInstructionDao() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

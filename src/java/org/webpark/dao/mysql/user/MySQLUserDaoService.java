@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
+import java.util.List;
 import org.apache.log4j.Logger;
 import org.webpark.configuration.exception.ConfigurationPropertyNotFoundException;
 import org.webpark.dao.AppDaoFactory;
@@ -20,9 +21,7 @@ import org.webpark.dao.annotation.utils.DAOUtils;
 import org.webpark.dao.annotation.utils.converters.Converters;
 import org.webpark.dao.entities.User;
 import org.webpark.dao.exception.DAOException;
-import org.webpark.dao.exception.EntityNotStoredException;
 import org.webpark.dao.mysql.MySQLDaoConfiguration;
-import org.webpark.dao.mysql.MySQLDriver;
 import static org.webpark.utils.ProjectUtils.checkNotNull;
 
 /**
@@ -32,8 +31,6 @@ import static org.webpark.utils.ProjectUtils.checkNotNull;
 public class MySQLUserDaoService implements UserDaoServiceInterface {
 
     private static final Class<User> USER_CLASS = User.class;
-    private static final String USER_USERNAME = "userName";
-    private static final String USER_PASSWORD = "password";
 
     private final MySQLDaoConfiguration daoConf = MySQLDaoConfiguration.getInstance();
 
@@ -88,6 +85,16 @@ public class MySQLUserDaoService implements UserDaoServiceInterface {
         return null;
     }
 
+    @Override
+    public List<User> getAllForesters() throws DAOException {
+        String selectQuery = daoConf.getProperty(MySQLUserDaoService.Queries.GET_ALL_FORESTERS_TAG);
+        if (selectQuery == null) {
+            throw new DAOException(new ConfigurationPropertyNotFoundException());
+        }
+        
+        return AppDaoFactory.getInstance().getCRUDDao().select(USER_CLASS, selectQuery);
+    }
+
     private static class UserDaoServiceHolder {
 
         private static final MySQLUserDaoService INSTANCE = new MySQLUserDaoService();
@@ -96,5 +103,6 @@ public class MySQLUserDaoService implements UserDaoServiceInterface {
     private interface Queries {
 
         String GET_BY_USERNAME_PASSWORD_QUERY_TAG = "user.get_by_username_password";
+        String GET_ALL_FORESTERS_TAG = "user.get_all_foresters";
     }
 }

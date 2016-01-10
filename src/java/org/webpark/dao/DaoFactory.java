@@ -29,6 +29,8 @@ public abstract class DaoFactory {
     public abstract CRUDDaoInterface getCRUDDao();
 
     public abstract UserDaoServiceInterface getUserDao();
+    
+    public abstract InstructionDaoServiceInterface getInstructionDao();
 
     public enum DaoType {
 

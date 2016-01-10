@@ -18,4 +18,9 @@
         <tag-class>org.webpark.tag.LanguageTag</tag-class>
         <body-content>empty</body-content>
     </tag>
+    <tag>
+        <name>allForestersSelect</name>
+        <tag-class>org.webpark.tag.AllForestersSelectTag</tag-class>
+        <body-content>empty</body-content>
+    </tag>
 </taglib>

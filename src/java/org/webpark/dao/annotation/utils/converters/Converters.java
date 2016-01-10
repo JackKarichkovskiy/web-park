@@ -8,6 +8,8 @@ package org.webpark.dao.annotation.utils.converters;
 import java.util.Date;
 import java.util.UUID;
 import org.webpark.dao.annotation.utils.Converter;
+import org.webpark.dao.entities.Instruction;
+import org.webpark.dao.entities.InstructionStep;
 import org.webpark.dao.entities.User.Roles;
 
 /**
@@ -21,6 +23,8 @@ public enum Converters {
     BooleanConverter(Boolean.class, new BooleanConverter()),
     DateConverter(Date.class, new DateConverter()),
     RolesConverter(Roles.class, new RolesConverter()),
+    InstructionStatusConverter(Instruction.Status.class, new InstructionStatusConverter()),
+    InstructionStepStatusConverter(InstructionStep.Status.class, new InstructionStepStatusConverter()),
     ;
     
     private final Converter converter;

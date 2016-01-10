@@ -22,8 +22,8 @@ public class UriBuilder {
     private static final String ACCESS_DENIED_PAGE = AppConfiguration.getInstance().getProperty(ACCESS_DENIED_TAG);
     private static final String ERROR_PAGE_TAG = "error_page";
     private static final String ERROR_PAGE = AppConfiguration.getInstance().getProperty(ERROR_PAGE_TAG);
-    private static final String ALL_PLANTS_TAG = "all_plants";
-    private static final String ALL_PLANTS_PAGE = AppConfiguration.getInstance().getProperty(ALL_PLANTS_TAG);
+    private static final String ACCOUNT_PAGE_TAG = "account_page";
+    private static final String ACCOUNT_PAGE = AppConfiguration.getInstance().getProperty(ACCOUNT_PAGE_TAG);
 
     public static String getUri(String uriName) {
         return getUri(uriName, CommandResult.JumpType.REDIRECT);
@@ -44,8 +44,8 @@ public class UriBuilder {
             case ERROR_PAGE_TAG:
                 resultUri.append(ERROR_PAGE);
                 break;
-            case ALL_PLANTS_TAG:
-                resultUri.append(ALL_PLANTS_PAGE);
+            case ACCOUNT_PAGE_TAG:
+                resultUri.append(ACCOUNT_PAGE);
                 break;
             default:
             case INIT_PAGE_TAG:

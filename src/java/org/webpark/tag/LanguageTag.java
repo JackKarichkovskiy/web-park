@@ -8,7 +8,6 @@ package org.webpark.tag;
 import java.io.IOException;
 import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
@@ -31,7 +30,6 @@ public class LanguageTag extends SimpleTagSupport {
     public void doTag() throws JspException, IOException {
         PageContext pageContext = (PageContext) getJspContext();
         HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
-        HttpServletResponse response = (HttpServletResponse) pageContext.getResponse();
         HttpSession session = request.getSession(false);
         Locale currentLocale = null;
         if(Config.get(session, Config.FMT_LOCALE) == null){

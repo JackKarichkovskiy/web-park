@@ -8,20 +8,20 @@ package org.webpark.dao.annotation.utils.converters;
 import java.util.ResourceBundle;
 import org.apache.log4j.Logger;
 import org.webpark.dao.annotation.utils.Converter;
-import org.webpark.dao.entities.User.Roles;
+import org.webpark.dao.entities.InstructionStep.Status;
 import org.webpark.locale.AppBundleFactory;
 
 /**
  *
  * @author Karichkovskiy Yevhen
  */
-public class RolesConverter implements Converter<Roles> {
+public class InstructionStepStatusConverter implements Converter<Status> {
 
-    private static final String ROLE_CONVERT_ERROR_TAG = "log.role_convert_error";
+    private static final String STATUS_CONVERT_ERROR_TAG = "log.status_convert_error";
     private static final ResourceBundle BUNDLE = AppBundleFactory.getInstance().getAppBundle();
     
     @Override
-    public String toString(Roles value) {
+    public String toString(Status value) {
         if (value == null) {
             return "null";
         }
@@ -30,15 +30,15 @@ public class RolesConverter implements Converter<Roles> {
     }
 
     @Override
-    public Roles toValue(String str) {
+    public Status toValue(String str) {
         if (str == null || "null".equals(str)) {
             return null;
         }
         try {
-            return Roles.valueOf(str);
+            return Status.valueOf(str);
         } catch (IllegalArgumentException ex) {
-            String errorMessage = String.format(BUNDLE.getString(ROLE_CONVERT_ERROR_TAG), str);
-            Logger.getLogger(RolesConverter.class).error(errorMessage, ex);
+            String errorMessage = String.format(BUNDLE.getString(STATUS_CONVERT_ERROR_TAG), str);
+            Logger.getLogger(InstructionStatusConverter.class).error(errorMessage, ex);
             return null;
         }
     }

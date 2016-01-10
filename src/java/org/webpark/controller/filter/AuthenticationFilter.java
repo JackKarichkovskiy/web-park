@@ -20,7 +20,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 import org.webpark.controller.command.WebTags;
-import org.webpark.controller.session.SessionStorage;
 import org.webpark.controller.uri.UriBuilder;
 import org.webpark.locale.AppBundleFactory;
 
@@ -36,7 +35,6 @@ public class AuthenticationFilter implements Filter {
     private static final String REDIRECTED_URI_TAG = "log.redirected_uri";
     private static final ResourceBundle BUNDLE = AppBundleFactory.getInstance().getAppBundle();
     private static final String DEFAULT_PAGE = UriBuilder.getUri("init_page");
-    private static final SessionStorage STORAGE = SessionStorage.getInstance();
 
     private ServletContext context;
 
@@ -62,8 +60,8 @@ public class AuthenticationFilter implements Filter {
                                     session.getAttribute(WebTags.USER_TAG),
                                     session.getId()));
         }
-
-        if (session == null || !STORAGE.containsSession(session)) {
+        
+        if (session == null || session.getAttribute(WebTags.USER_TAG) == null) {
             String redirect = DEFAULT_PAGE;
             Logger.getLogger(AuthenticationFilter.class).
                     info(String.format(BUNDLE.getString(REDIRECTED_URI_TAG), uri, redirect));

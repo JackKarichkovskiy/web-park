@@ -15,7 +15,6 @@ import org.webpark.controller.command.CommandResult;
 import org.webpark.controller.command.RolesAllowed;
 import org.webpark.controller.command.WebTags;
 import static org.webpark.controller.command.WebTags.USER_TAG;
-import org.webpark.controller.session.SessionStorage;
 import org.webpark.controller.uri.UriBuilder;
 import org.webpark.dao.AppDaoFactory;
 import org.webpark.dao.entities.User;
@@ -32,7 +31,7 @@ class LogInCommand implements Command {
     private static final String DATABASE_CONN_ERROR = "log.database_conn_error";
     private static final ResourceBundle BUNDLE = AppBundleFactory.getInstance().getAppBundle();
     private static final String ERROR_PAGE = UriBuilder.getUri("error_page", CommandResult.JumpType.FORWARD);
-    private static final String ALL_PLANT_PAGE = UriBuilder.getUri("all_plants", CommandResult.JumpType.FORWARD);
+    private static final String ACCOUNT_PAGE = UriBuilder.getUri("account_page", CommandResult.JumpType.REDIRECT);
 
     @Override
     public CommandResult execute(HttpServletRequest request, HttpServletResponse response) {
@@ -56,9 +55,9 @@ class LogInCommand implements Command {
 
         if (user != null) {
             HttpSession session = request.getSession(true);
-            SessionStorage.getInstance().addSession(session);
+            //SessionStorage.getInstance().addSession(session);
             session.setAttribute(USER_TAG, user);
-            return new CommandResult(ALL_PLANT_PAGE, CommandResult.JumpType.FORWARD);
+            return new CommandResult(ACCOUNT_PAGE, CommandResult.JumpType.REDIRECT);
         } else {
             return new CommandResult(null, CommandResult.JumpType.IGNORE);
         }

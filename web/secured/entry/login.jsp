@@ -16,9 +16,9 @@
     <c:when test="${(sessionScope.user eq null) or (sessionScope.user.role eq 'GUEST')}">
         <form method="POST" action="/WebPark/Controller?command=logIn">
             <h3><fmt:message key="login.welcome_guest" bundle="${lang}"/></h3>
-            <span><fmt:message key="login.username" bundle="${lang}"/>:</span><input name="username" type="text"/><br/>
-            <span><fmt:message key="login.password" bundle="${lang}"/>:</span><input name="password" type="password"/><br/>
-            <input value="${log_in_lbl}" type="submit"/><br/>
+            <p><fmt:message key="login.username" bundle="${lang}"/>:<input name="username" type="text"/></p>
+            <p><fmt:message key="login.password" bundle="${lang}"/>:<input name="password" type="password"/></p>
+            <p><input value="${log_in_lbl}" type="submit"/></p>
         </form>
     </c:when>
     <c:otherwise>
