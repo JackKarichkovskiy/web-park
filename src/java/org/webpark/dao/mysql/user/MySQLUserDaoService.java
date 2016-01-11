@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
 import org.apache.log4j.Logger;
 import org.webpark.configuration.exception.ConfigurationPropertyNotFoundException;
 import org.webpark.dao.AppDaoFactory;
@@ -81,6 +82,12 @@ public class MySQLUserDaoService implements UserDaoServiceInterface {
             }
         } catch (SQLException ex) {
             throw new DAOException(ex);
+        }finally{
+            try {
+                connection.close();
+            } catch (SQLException ex) {
+                throw new DAOException(ex);
+            }
         }
         return null;
     }

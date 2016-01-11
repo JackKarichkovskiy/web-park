@@ -15,6 +15,7 @@ public enum Commands {
     LOG_IN("logIn", new LogInCommand()),
     LOG_OUT("logOut", new LogOutCommand()),
     CHANGE_LANGUAGE("changeLang", new ChangeLanguageCommand()),
+    ADD_NEW_INSTRUCTION("addInstruction", new AddNewInstructionCommand()),
     ;
     
     private final String commandName;

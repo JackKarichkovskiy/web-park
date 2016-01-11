@@ -21,6 +21,10 @@ public interface WebTags {
     String LANGUAGE_SELECT_TAG = "language";
     String LANGUAGE_FORM_TAG = "langform";
     String CURRENT_URI_TAG = "currentURI";
+    String INSTRUCTION_TITLE_TAG = "title";
+    String INSTRUCTION_CREATED_BY_TAG = "createdBy";
     String PERFORMED_BY_TAG = "performedBy";
-    String CREATED_BY_TAG = "createdBy";
+    String TASK_PLANT_TAG = "plants";
+    String TASK_TAG = "tasks";
+    String INSTRUCTION_STATUS_TAG = "status";
 }

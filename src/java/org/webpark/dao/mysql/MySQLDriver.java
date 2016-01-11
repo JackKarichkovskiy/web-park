@@ -87,6 +87,12 @@ public class MySQLDriver implements CRUDDaoInterface {
             }
         } catch (SQLException ex) {
             throw new DAOException(ex);
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException ex) {
+                throw new DAOException(ex);
+            }
         }
         return null;
     }
@@ -128,6 +134,12 @@ public class MySQLDriver implements CRUDDaoInterface {
             stmt.execute(query);
         } catch (SQLException ex) {
             throw new DAOException(ex);
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException ex) {
+                throw new DAOException(ex);
+            }
         }
         return instance;
     }
@@ -181,6 +193,12 @@ public class MySQLDriver implements CRUDDaoInterface {
             stmt.execute(query);
         } catch (SQLException ex) {
             throw new DAOException(ex);
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException ex) {
+                throw new DAOException(ex);
+            }
         }
     }
 
@@ -218,6 +236,12 @@ public class MySQLDriver implements CRUDDaoInterface {
             stmt.execute(query);
         } catch (SQLException ex) {
             throw new DAOException(ex);
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException ex) {
+                throw new DAOException(ex);
+            }
         }
     }
 
@@ -239,6 +263,12 @@ public class MySQLDriver implements CRUDDaoInterface {
             resultList = DAOUtils.ResultSetToEntityArray(entityClass, rs);
         } catch (SQLException ex) {
             throw new DAOException(ex);
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException ex) {
+                throw new DAOException(ex);
+            }
         }
         return resultList;
     }
@@ -246,7 +276,7 @@ public class MySQLDriver implements CRUDDaoInterface {
     @Override
     public <T> List<T> getAllEntities(Class<T> entityClass) throws DAOException {
         checkNotNull(entityClass);
-        
+
         List<T> resultList = new ArrayList<>();
 
         //Определения таблицы
@@ -254,15 +284,15 @@ public class MySQLDriver implements CRUDDaoInterface {
         if (table == null) {
             throw new DAOException(new EntityNotStoredException());
         }
-        
+
         String getAllQuery = daoConf.getProperty(Queries.GET_ALL_QUERY);
         if (getAllQuery == null) {
             throw new DAOException(new ConfigurationPropertyNotFoundException());
         }
         String query = String.format(getAllQuery, table);
-        
+
         Logger.getLogger(MySQLDriver.class).info(query);
-        
+
         return select(entityClass, query);
     }
 

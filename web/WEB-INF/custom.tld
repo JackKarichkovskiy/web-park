@@ -23,4 +23,9 @@
         <tag-class>org.webpark.tag.AllForestersSelectTag</tag-class>
         <body-content>empty</body-content>
     </tag>
+    <tag>
+        <name>allPlantsSelect</name>
+        <tag-class>org.webpark.tag.AllPlantsSelectTag</tag-class>
+        <body-content>empty</body-content>
+    </tag>
 </taglib>

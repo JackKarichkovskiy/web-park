@@ -6,19 +6,9 @@
 minCounter = 2;
 counter = 2;
 function addTask(divName) {
-    var newp = document.createElement('p');
-    newp.id = "task"+counter;
-    newp.innerHTML = "<span> " + (counter) + ".</span> \
-                <select name=\"select1[]\">\
-                    <option>a</option>\
-                    <option>b</option>\
-                    <option>c</option>\
-                </select>\
-                <select name=\"select2[]\">\
-                    <option>a</option>\
-                    <option>b</option>\
-                    <option>c</option>\
-                </select>";
+    var task1 = document.getElementById('task1');
+    var newp = task1.cloneNode(true);
+    newp.id = "task" + (counter);
     document.getElementById(divName).appendChild(newp);
     counter++;
 }

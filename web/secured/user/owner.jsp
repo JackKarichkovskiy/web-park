@@ -12,7 +12,7 @@
 <h2>Hello Owner ${sessionScope.user.username}!</h2>
 
 <script src="addTask.js" language="Javascript" type="text/javascript"></script>
-<form method="POST">
+<form method="POST" action="/WebPark/Controller?command=addInstruction">
     <h4>Add new instruction</h4>
     <p>Title:<input type="text" name="title"/></p>
     <p><input type="hidden" name="createdBy" value="${sessionScope.user.id}"/></p>
@@ -25,17 +25,8 @@
         <input type="button" value="Remove last task" onClick="removeTask('newTasks');"/>
         <div id="newTasks">
             <p id="task1">
-                <span>1.</span>
-                <select name="select1[]">
-                    <option>a</option>
-                    <option>b</option>
-                    <option>c</option>
-                </select>
-                <select name="select2[]">
-                    <option>a</option>
-                    <option>b</option>
-                    <option>c</option>
-                </select>
+                <ex:allPlantsSelect/>
+                <input name="tasks" type="text" placeholder="Task"/>
             </p>
         </div>
     </div>

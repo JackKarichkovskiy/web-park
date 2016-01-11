@@ -13,6 +13,6 @@
     </head>
     <body>
         <h3>Access denied</h3>
-        <a href="./index.jsp">Main page</a>
+        <a href="/WebPark/index.jsp">Main page</a>
     </body>
 </html>

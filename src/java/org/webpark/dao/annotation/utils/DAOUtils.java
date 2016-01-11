@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.webpark.dao.annotation.Primary;
 import org.webpark.dao.annotation.Stored;
+import org.webpark.dao.annotation.utils.converters.Converters;
 import org.webpark.dao.exception.DAOException;
 import org.webpark.dao.exception.FieldNotStoredException;
 import org.webpark.dao.exception.FieldReadingException;
@@ -270,4 +271,15 @@ public class DAOUtils {
 
         return result;
     }
+    
+    public static <T> String convertFieldToString(T field){
+        checkNotNull(field);
+        
+        Converters converter = Converters.getConverterByArgType(field.getClass());
+        if(converter == null){
+            return null;
+        }
+        
+        return converter.getConverter().toString(field);
+    } 
 }
