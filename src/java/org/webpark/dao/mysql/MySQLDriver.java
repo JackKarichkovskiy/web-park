@@ -30,9 +30,9 @@ import static org.webpark.utils.ProjectUtils.checkNotNull;
  */
 public class MySQLDriver implements CRUDDaoInterface {
 
-    private final MySQLDaoConfiguration daoConf = MySQLDaoConfiguration.getInstance();
+    private final static MySQLDaoConfiguration DAO_CONF = MySQLDaoConfiguration.getInstance();
 
-    private final DaoConnection connHolder = DaoConnection.getInstance();
+    private final static DaoConnection CONN_HOLDER = DaoConnection.getInstance();
 
     private static MySQLDriver instance;
 
@@ -59,7 +59,7 @@ public class MySQLDriver implements CRUDDaoInterface {
 
         Field primaryKey = DAOUtils.getPrimaryKey(entityClass);
         Converter pkConverter = primaryKey.getAnnotation(DAOUtils.STORED_ANNO_CLASS).converter().getConverter();
-        String readQuery = daoConf.getProperty(Queries.READ_QUERY);
+        String readQuery = DAO_CONF.getProperty(Queries.READ_QUERY);
         if (readQuery == null) {
             throw new DAOException(new ConfigurationPropertyNotFoundException());
         }
@@ -68,7 +68,7 @@ public class MySQLDriver implements CRUDDaoInterface {
 
         Connection connection = null;
         try {
-            connection = connHolder.getConnection();
+            connection = CONN_HOLDER.getConnection();
         } catch (SQLException ex) {
             throw new DAOException(ex);
         }
@@ -115,7 +115,7 @@ public class MySQLDriver implements CRUDDaoInterface {
             }
         }
         values = values.substring(0, values.length() - 1);
-        String insertQuery = daoConf.getProperty(Queries.INSERT_QUERY);
+        String insertQuery = DAO_CONF.getProperty(Queries.INSERT_QUERY);
         if (insertQuery == null) {
             throw new DAOException(new ConfigurationPropertyNotFoundException());
         }
@@ -126,7 +126,7 @@ public class MySQLDriver implements CRUDDaoInterface {
         //Executing the query
         Connection connection = null;
         try {
-            connection = connHolder.getConnection();
+            connection = CONN_HOLDER.getConnection();
         } catch (SQLException ex) {
             throw new DAOException(ex);
         }
@@ -173,7 +173,7 @@ public class MySQLDriver implements CRUDDaoInterface {
         Object pkValue = DAOUtils.getFieldValue(instance, primaryKey);
         String convertedPkValue = pkConverter.toString(pkValue);
 
-        String updateQuery = daoConf.getProperty(Queries.UPDATE_QUERY);
+        String updateQuery = DAO_CONF.getProperty(Queries.UPDATE_QUERY);
         if (updateQuery == null) {
             throw new DAOException(new ConfigurationPropertyNotFoundException());
         }
@@ -184,7 +184,7 @@ public class MySQLDriver implements CRUDDaoInterface {
         Connection connection = null;
 
         try {
-            connection = connHolder.getConnection();
+            connection = CONN_HOLDER.getConnection();
         } catch (SQLException ex) {
             throw new DAOException(ex);
         }
@@ -218,7 +218,7 @@ public class MySQLDriver implements CRUDDaoInterface {
         Object pkValue = DAOUtils.getFieldValue(instance, primaryKey);
         String convertedPkValue = pkConverter.toString(pkValue);
 
-        String deleteQuery = daoConf.getProperty(Queries.DELETE_QUERY);
+        String deleteQuery = DAO_CONF.getProperty(Queries.DELETE_QUERY);
         if (deleteQuery == null) {
             throw new DAOException(new ConfigurationPropertyNotFoundException());
         }
@@ -228,7 +228,7 @@ public class MySQLDriver implements CRUDDaoInterface {
 
         Connection connection = null;
         try {
-            connection = connHolder.getConnection();
+            connection = CONN_HOLDER.getConnection();
         } catch (SQLException ex) {
             throw new DAOException(ex);
         }
@@ -249,18 +249,19 @@ public class MySQLDriver implements CRUDDaoInterface {
     public <T> List<T> select(Class< T> entityClass, String sqlString) throws DAOException {
         checkNotNull(entityClass);
         checkNotNull(sqlString);
-
+        
         List<T> resultList = new ArrayList<>();
 
         Connection connection = null;
         try {
-            connection = connHolder.getConnection();
+            connection = CONN_HOLDER.getConnection();
         } catch (SQLException ex) {
             throw new DAOException(ex);
         }
+        ResultSet rs;
         try (Statement stmt = connection.createStatement()) {
-            ResultSet rs = stmt.executeQuery(sqlString);
-            resultList = DAOUtils.ResultSetToEntityArray(entityClass, rs);
+            rs = stmt.executeQuery(sqlString);
+            resultList = DAOUtils.resultSetToEntityArray(entityClass, rs);
         } catch (SQLException ex) {
             throw new DAOException(ex);
         } finally {
@@ -270,6 +271,7 @@ public class MySQLDriver implements CRUDDaoInterface {
                 throw new DAOException(ex);
             }
         }
+
         return resultList;
     }
 
@@ -277,15 +279,13 @@ public class MySQLDriver implements CRUDDaoInterface {
     public <T> List<T> getAllEntities(Class<T> entityClass) throws DAOException {
         checkNotNull(entityClass);
 
-        List<T> resultList = new ArrayList<>();
-
         //Определения таблицы
         String table = DAOUtils.defineTableName(entityClass);
         if (table == null) {
             throw new DAOException(new EntityNotStoredException());
         }
 
-        String getAllQuery = daoConf.getProperty(Queries.GET_ALL_QUERY);
+        String getAllQuery = DAO_CONF.getProperty(Queries.GET_ALL_QUERY);
         if (getAllQuery == null) {
             throw new DAOException(new ConfigurationPropertyNotFoundException());
         }

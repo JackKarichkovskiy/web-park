@@ -5,10 +5,8 @@
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="ex" uri="/WEB-INF/custom.tld"%>
 <h1>Hello Forester ${sessionScope.user.username}!</h1>
 
-<c:if test="${requestScope.instructions ne null}">
-    <c:forEach items="${requestScope.instructions}">
-
-    </c:forEach>
-</c:if>
+<h3>Your instructions:</h3>
+<ex:foresterTasks/>

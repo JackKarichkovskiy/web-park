@@ -6,6 +6,7 @@
 package org.webpark.dao;
 
 import java.util.List;
+import java.util.Map;
 import org.webpark.dao.entities.Instruction;
 import org.webpark.dao.entities.InstructionStep;
 import org.webpark.dao.exception.DAOException;
@@ -16,7 +17,11 @@ import org.webpark.dao.exception.DAOException;
  */
 public interface InstructionDaoServiceInterface {
     
-    List<Instruction> getAllNotDoneInstructionsByOwner(String id) throws DAOException;
+    List<Instruction> getAllNotConfirmedInstructionsByOwner(String id) throws DAOException;
+    
+    List<Instruction> getAllNotDoneInstructionsByForester(String id) throws DAOException;
+    
+    Map<String, List<Object>> getAllStepsInInstruction(String id) throws DAOException;
     
     void addNewInstruction(Instruction instruction, InstructionStep[] steps) throws DAOException;
 }

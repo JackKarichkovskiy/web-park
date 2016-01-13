@@ -245,7 +245,7 @@ public class DAOUtils {
      * @return колекцію з отриманими об'єктами
      * @throws org.webpark.dao.exception.DAOException
      */
-    public static <T> ArrayList<T> ResultSetToEntityArray(Class<T> entityClass, ResultSet rset) throws DAOException {
+    public static <T> ArrayList<T> resultSetToEntityArray(Class<T> entityClass, ResultSet rset) throws DAOException {
         checkNotNull(entityClass);
         checkNotNull(rset);
 

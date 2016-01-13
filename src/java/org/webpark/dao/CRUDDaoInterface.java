@@ -5,6 +5,7 @@
  */
 package org.webpark.dao;
 
+import java.sql.ResultSet;
 import java.util.List;
 import java.util.UUID;
 import org.webpark.dao.exception.DAOException;

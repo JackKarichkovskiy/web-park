@@ -27,4 +27,5 @@ public interface WebTags {
     String TASK_PLANT_TAG = "plants";
     String TASK_TAG = "tasks";
     String INSTRUCTION_STATUS_TAG = "status";
+    String INSTRUCTION_STEP_STATUS_TAG = "stepStatus";
 }
