@@ -41,11 +41,11 @@ class CommandProtectionProxy implements Command {
         HttpSession session = request.getSession(false);
         User user;
         if (session == null || session.isNew() ||
-                (user = (User) session.getAttribute(WebTags.USER_TAG)) == null) {
+                (user = (User) session.getAttribute(WebTags.SESSION_USER_TAG)) == null) {
             session = request.getSession();
             user = new User();
             user.setRole(Roles.GUEST);
-            session.setAttribute(WebTags.USER_TAG, user);
+            session.setAttribute(WebTags.SESSION_USER_TAG, user);
             Logger.getLogger(CommandProtectionProxy.class).
                     info(String.format(BUNDLE.getString(NEW_GUEST_TAG), 
                             command.getClass().getSimpleName()));

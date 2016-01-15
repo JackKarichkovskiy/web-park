@@ -46,13 +46,5 @@
     </p>
 </form>
 
-<!--<table>
-    <thead>
-
-    </thead>
-    <tbody>
-        <tr>
-            <td></td>
-        </tr>
-    </tbody>
-</table> -->
+<h4>Done instructions:</h4>
+<p><ex:ownerNotConfirmedTasks/></p>

@@ -48,7 +48,7 @@ public class MySQLDriver implements CRUDDaoInterface {
     }
 
     @Override
-    public <T> T read(Class<T> entityClass, UUID id) throws DAOException {
+    public <T> T read(Class<T> entityClass, Object id) throws DAOException {
         checkNotNull(entityClass);
         checkNotNull(id);
 

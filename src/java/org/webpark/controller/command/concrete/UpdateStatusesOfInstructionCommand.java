@@ -12,11 +12,13 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.webpark.controller.command.Command;
 import org.webpark.controller.command.CommandResult;
+import org.webpark.controller.command.RolesAllowed;
 import org.webpark.controller.command.WebTags;
 import org.webpark.controller.uri.UriBuilder;
 import org.webpark.dao.AppDaoFactory;
 import org.webpark.dao.entities.Instruction;
 import org.webpark.dao.entities.InstructionStep;
+import org.webpark.dao.entities.User;
 import org.webpark.dao.exception.DAOException;
 import org.webpark.locale.AppBundleFactory;
 
@@ -24,6 +26,7 @@ import org.webpark.locale.AppBundleFactory;
  *
  * @author Karichkovskiy Yevhen
  */
+@RolesAllowed(User.Roles.FORESTER)
 public class UpdateStatusesOfInstructionCommand implements Command{
     
     private static final String DATABASE_CONN_ERROR = "log.database_conn_error";

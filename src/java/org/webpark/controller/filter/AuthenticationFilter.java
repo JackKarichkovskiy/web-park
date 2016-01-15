@@ -57,11 +57,11 @@ public class AuthenticationFilter implements Filter {
             Logger.getLogger(AuthenticationFilter.class)
                     .info(String.format(BUNDLE.getString(FILTER_URI_USER_SESSION_TAG),
                                     uri,
-                                    session.getAttribute(WebTags.USER_TAG),
+                                    session.getAttribute(WebTags.SESSION_USER_TAG),
                                     session.getId()));
         }
         
-        if (session == null || session.getAttribute(WebTags.USER_TAG) == null) {
+        if (session == null || session.getAttribute(WebTags.SESSION_USER_TAG) == null) {
             String redirect = DEFAULT_PAGE;
             Logger.getLogger(AuthenticationFilter.class).
                     info(String.format(BUNDLE.getString(REDIRECTED_URI_TAG), uri, redirect));

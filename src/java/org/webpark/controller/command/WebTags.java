@@ -12,7 +12,7 @@ package org.webpark.controller.command;
 public interface WebTags {
     String USERNAME_TAG = "username";
     String PASSWORD_TAG = "password";
-    String USER_TAG = "user";
+    String SESSION_USER_TAG = "user";
     String ALL_PLANTS_TAG = "allPlants";
     String ERROR_MESSAGE_TAG = "exMessage";
     String ERROR_CODE_TAG = "errorCode";
@@ -29,6 +29,7 @@ public interface WebTags {
     String TASK_TAG = "tasks";
     String INSTRUCTION_STATUS_TAG = "status";
     String INSTRUCTION_STEP_ID_TAG = "stepId";
-    String INSTRUCTION_STEP_STATUS_TAG = "stepStatus";
+    String INSTRUCTION_STEP_TASK_TAG = "task";
     String INSTRUCTION_STEP_REPORT_TAG = "report";
+    String INSTRUCTION_STEP_STATUS_TAG = "stepStatus";
 }

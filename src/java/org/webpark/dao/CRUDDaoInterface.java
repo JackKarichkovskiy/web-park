@@ -5,7 +5,6 @@
  */
 package org.webpark.dao;
 
-import java.sql.ResultSet;
 import java.util.List;
 import java.util.UUID;
 import org.webpark.dao.exception.DAOException;
@@ -25,7 +24,7 @@ public interface CRUDDaoInterface {
      * @return result entity object from db
      * @throws DAOException - if some sql or connection problems
      */
-    public <T> T read(Class<T> entityClass, UUID id) throws DAOException;
+    public <T> T read(Class<T> entityClass, Object id) throws DAOException;
 
     /**
      * Inserts new data to the database.

@@ -47,9 +47,38 @@ public class MySQLInstructionDaoService implements InstructionDaoServiceInterfac
 
     @Override
     public List<Instruction> getAllNotConfirmedInstructionsByOwner(String id) throws DAOException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+        checkNotNull(id);
 
+        String getOwnerInstructions = DAO_CONF.getProperty(Queries.GET_NOT_CONFIRMED_INSTRUCTIONS_BY_OWNER);
+        if (getOwnerInstructions == null) {
+            throw new DAOException(new ConfigurationPropertyNotFoundException());
+        }
+        
+        String convertedId = DAOUtils.convertFieldToString(id);
+        String getOwnerInstructionsQuery = String.format(getOwnerInstructions, convertedId);
+
+        Logger.getLogger(MySQLInstructionDaoService.class).info(getOwnerInstructionsQuery);
+
+        return AppDaoFactory.getInstance().getCRUDDao().select(INSTRUCTION_CLASS, getOwnerInstructionsQuery);
+    }
+    
+    @Override
+    public List<Instruction> getAllNotDoneInstructionsByForester(String id) throws DAOException {
+        checkNotNull(id);
+
+        String getForesterInstructions = DAO_CONF.getProperty(Queries.GET_FORESTER_INSTRUCTIONS);
+        if (getForesterInstructions == null) {
+            throw new DAOException(new ConfigurationPropertyNotFoundException());
+        }
+
+        String convertedId = DAOUtils.convertFieldToString(id);
+        String getForesterInstructionsQuery = String.format(getForesterInstructions, convertedId);
+
+        Logger.getLogger(MySQLInstructionDaoService.class).info(getForesterInstructionsQuery);
+
+        return AppDaoFactory.getInstance().getCRUDDao().select(INSTRUCTION_CLASS, getForesterInstructionsQuery);
+    }
+    
     @Override
     public void addNewInstruction(Instruction instruction, InstructionStep[] steps) throws DAOException {
         checkNotNull(instruction);
@@ -168,22 +197,61 @@ public class MySQLInstructionDaoService implements InstructionDaoServiceInterfac
     }
 
     @Override
-    public List<Instruction> getAllNotDoneInstructionsByForester(String id) throws DAOException {
-        checkNotNull(id);
+    public void updateNotConfirmedInstructionStatuses(Instruction instruction, InstructionStep[] steps) throws DAOException {
+        checkNotNull(instruction);
+        checkNotNull(steps);
 
-        String getForesterInstructions = DAO_CONF.getProperty(Queries.GET_FORESTER_INSTRUCTIONS);
-        if (getForesterInstructions == null) {
+        String updateInstruction = DAO_CONF.getProperty(Queries.UPDATE_INSTRUCTION_STATUS);
+        String updateStep = DAO_CONF.getProperty(Queries.UPDATE_NOT_CONFIRMED_INSTRUCTION_STEP_STATUS);
+        if (updateInstruction == null || updateStep == null) {
             throw new DAOException(new ConfigurationPropertyNotFoundException());
         }
 
-        String convertedId = DAOUtils.convertFieldToString(id);
-        String getForesterInstructionsQuery = String.format(getForesterInstructions, convertedId);
+        Logger.getLogger(MySQLInstructionDaoService.class).info(updateInstruction);
+        Logger.getLogger(MySQLInstructionDaoService.class).info(updateStep);
 
-        Logger.getLogger(MySQLInstructionDaoService.class).info(getForesterInstructionsQuery);
+        //Executing the query
+        Connection connection = null;
+        try {
+            connection = CONN_HOLDER.getConnection();
+            connection.setAutoCommit(false);
+        } catch (SQLException ex) {
+            throw new DAOException(ex);
+        }
 
-        return AppDaoFactory.getInstance().getCRUDDao().select(INSTRUCTION_CLASS, getForesterInstructionsQuery);
+        try {
+            PreparedStatement updateInstructionStmt = connection.prepareStatement(updateInstruction);
+            updateInstructionStmt.setString(1, instruction.getStatus().toString());
+            updateInstructionStmt.setString(2, instruction.getId().toString());
+            updateInstructionStmt.executeUpdate();
+            
+            PreparedStatement updateStepStmt = connection.prepareStatement(updateStep);
+            for (InstructionStep step : steps) {
+                updateStepStmt.setString(1, step.getTask());
+                updateStepStmt.setString(2, step.getStatus().toString());
+                updateStepStmt.setString(3, step.getId().toString());
+                updateStepStmt.executeUpdate();
+            }
+            
+            connection.commit();
+        } catch (SQLException ex) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex1) {
+                throw new DAOException(ex1);
+            }
+            throw new DAOException(ex);
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+                throw new DAOException(ex);
+            }
+        }
     }
-
+    
     @Override
     public Map<String, List<Object>> getAllStepsInInstruction(String id) throws DAOException {
         checkNotNull(id);
@@ -266,6 +334,8 @@ public class MySQLInstructionDaoService implements InstructionDaoServiceInterfac
 
         String ADD_STEP = "instruction.add_step";
 
+        String GET_NOT_CONFIRMED_INSTRUCTIONS_BY_OWNER = "instruction.get_not_confirmed_instructions";
+        
         String GET_FORESTER_INSTRUCTIONS = "instruction.get_forester_instructions";
 
         String GET_INSTRUCTION_STEPS = "instruction.get_instruction_steps";
@@ -273,6 +343,8 @@ public class MySQLInstructionDaoService implements InstructionDaoServiceInterfac
         String UPDATE_INSTRUCTION_STATUS = "instruction.update_instruction_status";
 
         String UPDATE_INSTRUCTION_STEP_STATUS = "instruction.update_instruction_step_status";
+        
+        String UPDATE_NOT_CONFIRMED_INSTRUCTION_STEP_STATUS = "instruction.update_not_confirmed_instruction_step_status";
     }
 
     private static class MySQLInstructionDaoServiceHolder {

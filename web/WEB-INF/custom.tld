@@ -33,4 +33,9 @@
         <tag-class>org.webpark.tag.ForesterTasksTag</tag-class>
         <body-content>empty</body-content>
     </tag>
+    <tag>
+        <name>ownerNotConfirmedTasks</name>
+        <tag-class>org.webpark.tag.OwnerNotConfirmedTasksTag</tag-class>
+        <body-content>empty</body-content>
+    </tag>
 </taglib>

@@ -26,4 +26,6 @@ public interface InstructionDaoServiceInterface {
     void addNewInstruction(Instruction instruction, InstructionStep[] steps) throws DAOException;
     
     void updateInstructionStatuses(Instruction instruction, InstructionStep[] steps) throws DAOException;
+    
+    void updateNotConfirmedInstructionStatuses(Instruction instruction, InstructionStep[] steps) throws DAOException;
 }

@@ -9,4 +9,4 @@
 <h1>Hello Forester ${sessionScope.user.username}!</h1>
 
 <h3>Your instructions:</h3>
-<ex:foresterTasks/>
+<p><ex:foresterTasks/></p>

@@ -17,6 +17,7 @@ public enum Commands {
     CHANGE_LANGUAGE("changeLang", new ChangeLanguageCommand()),
     ADD_NEW_INSTRUCTION("addInstruction", new AddNewInstructionCommand()),
     UPDATE_INSTRUCTION_STATUSES("updateInstructionStatuses", new UpdateStatusesOfInstructionCommand()),
+    UPDATE_NOT_CONFIRMED_INSTRUCTION_STATUSES("updateNotConfirmedInstructionStatuses", new UpdateNotConfirmedInstructionCommand()),
     ;
     
     private final String commandName;

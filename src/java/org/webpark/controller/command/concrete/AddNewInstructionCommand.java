@@ -7,7 +7,6 @@ package org.webpark.controller.command.concrete;
 
 import java.util.ResourceBundle;
 import java.util.UUID;
-import java.util.logging.Level;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
@@ -17,7 +16,6 @@ import org.webpark.controller.command.RolesAllowed;
 import org.webpark.controller.command.WebTags;
 import org.webpark.controller.uri.UriBuilder;
 import org.webpark.dao.AppDaoFactory;
-import org.webpark.dao.CRUDDaoInterface;
 import org.webpark.dao.InstructionDaoServiceInterface;
 import org.webpark.dao.entities.Instruction;
 import org.webpark.dao.entities.InstructionStep;
