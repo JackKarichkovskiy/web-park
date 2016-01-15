@@ -5,8 +5,9 @@
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="ex" uri="/WEB-INF/custom.tld"%>
-<h1>Hello Forester ${sessionScope.user.username}!</h1>
+<h1><fmt:message key="forester.welcome" bundle="${lang}"/> ${sessionScope.user.username}!</h1>
 
-<h3>Your instructions:</h3>
+<h3><fmt:message key="forester.instructions" bundle="${lang}"/>:</h3>
 <p><ex:foresterTasks/></p>

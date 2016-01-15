@@ -7,13 +7,16 @@ package org.webpark.tag;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
+import javax.servlet.jsp.jstl.core.Config;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 import org.apache.log4j.Logger;
 import org.webpark.controller.command.CommandResult;
@@ -23,6 +26,7 @@ import org.webpark.dao.AppDaoFactory;
 import org.webpark.dao.entities.Plant;
 import org.webpark.dao.exception.DAOException;
 import org.webpark.locale.AppBundleFactory;
+import org.webpark.locale.Language;
 
 /**
  *
@@ -46,6 +50,7 @@ public class AllPlantsTag extends SimpleTagSupport {
         PageContext pageContext = (PageContext) getJspContext();
         HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
         HttpServletResponse response = (HttpServletResponse) pageContext.getResponse();
+        HttpSession session = request.getSession();
 
         List<Plant> allPlants = null;
         try {
@@ -65,6 +70,9 @@ public class AllPlantsTag extends SimpleTagSupport {
         if (allPlants == null || allPlants.isEmpty()) {
             return;
         }
+        Locale curLocale = (Locale)Config.get(session, Config.FMT_LOCALE);
+        Language sessionLang = Language.getLanguageByLocale(curLocale);
+        ResourceBundle sessionBundle = AppBundleFactory.getInstance().createBundle(sessionLang);
 
         JspWriter out = getJspContext().getOut();
         out.println("<table id=\"plants\" border=\"1\">");
@@ -75,11 +83,11 @@ public class AllPlantsTag extends SimpleTagSupport {
         }
 
         out.println("<tr>");
-        out.println("<td>No</td>");
-        out.println("<td>Name</td>");
-        out.println("<td>Origin</td>");
-        out.println("<td>Color</td>");
-        out.println("<td>Sector</td>");
+        out.println(String.format("<td>%s</td>", sessionBundle.getString(LocaleKeys.NUMBER)));
+        out.println(String.format("<td>%s</td>", sessionBundle.getString(LocaleKeys.NAME)));
+        out.println(String.format("<td>%s</td>", sessionBundle.getString(LocaleKeys.ORIGIN)));
+        out.println(String.format("<td>%s</td>", sessionBundle.getString(LocaleKeys.COLOR)));
+        out.println(String.format("<td>%s</td>", sessionBundle.getString(LocaleKeys.SECTOR)));
         out.println("</tr>");
         int index = 1;
         for (Plant plant : allPlants) {
@@ -92,5 +100,13 @@ public class AllPlantsTag extends SimpleTagSupport {
             out.println("</tr>");
         }
         out.println("</table>");
+    }
+    
+    private interface LocaleKeys{
+        String NUMBER = "plant_tag.number";
+        String NAME = "plant_tag.name";
+        String ORIGIN = "plant_tag.origin";
+        String COLOR = "plant_tag.color";
+        String SECTOR = "plant_tag.sector";
     }
 }

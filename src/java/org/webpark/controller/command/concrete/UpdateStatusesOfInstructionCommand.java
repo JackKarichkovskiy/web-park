@@ -5,8 +5,10 @@
  */
 package org.webpark.controller.command.concrete;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ResourceBundle;
 import java.util.UUID;
+import java.util.logging.Level;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
@@ -36,6 +38,7 @@ public class UpdateStatusesOfInstructionCommand implements Command{
     
     @Override
     public CommandResult execute(HttpServletRequest request, HttpServletResponse response) {
+        String characterEncoding = request.getCharacterEncoding();
         String instructionIdStr = request.getParameter(WebTags.INSTRUCTION_ID_TAG);
         String instructionStatusStr = request.getParameter(WebTags.INSTRUCTION_STATUS_TAG);
         Instruction inst = new Instruction(UUID.fromString(instructionIdStr), null, null, null, Instruction.Status.valueOf(instructionStatusStr));

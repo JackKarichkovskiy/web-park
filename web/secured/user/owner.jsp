@@ -5,24 +5,27 @@
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="ex" uri="/WEB-INF/custom.tld"%>
 <%@page import="org.webpark.dao.entities.Instruction"%>
 <%@page import="org.webpark.dao.entities.Instruction.Status"%>
 
-<h2>Hello Owner ${sessionScope.user.username}!</h2>
+<h2><fmt:message key="owner.welcome" bundle="${lang}"/> ${sessionScope.user.username}!</h2>
 
 <script src="addTask.js" language="Javascript" type="text/javascript"></script>
-<form method="POST" action="/WebPark/Controller?command=addInstruction">
-    <h4>Add new instruction</h4>
-    <p>Title:<input type="text" name="title"/></p>
+<form method="POST" action="/WebPark/Controller?command=addInstruction" accept-charset="UTF-8">
+    <h4><fmt:message key="owner.add_instruction" bundle="${lang}"/></h4>
+    <p><fmt:message key="owner.inst_title" bundle="${lang}"/>:<input type="text" name="title"/></p>
     <p><input type="hidden" name="createdBy" value="${sessionScope.user.id}"/></p>
 
-    <p>Executor:<ex:allForestersSelect/></p>
+    <p><fmt:message key="owner.inst_executor" bundle="${lang}"/>:<ex:allForestersSelect/></p>
 
     <div>
-        Tasks:
-        <input type="button" value="Add another task" onClick="addTask('newTasks');"/>
-        <input type="button" value="Remove last task" onClick="removeTask('newTasks');"/>
+        <fmt:message key="owner.inst_tasks" bundle="${lang}"/>:
+        <fmt:message key="owner.add_task" bundle="${lang}" var="add_task_lbl"/>
+        <input type="button" value="${add_task_lbl}" onClick="addTask('newTasks');"/>
+        <fmt:message key="owner.remove_task" bundle="${lang}" var="remove_task_lbl"/>
+        <input type="button" value="${remove_task_lbl}" onClick="removeTask('newTasks');"/>
         <div id="newTasks">
             <p id="task1">
                 <ex:allPlantsSelect/>
@@ -31,7 +34,7 @@
         </div>
     </div>
 
-    <p>Status:
+    <p><fmt:message key="owner.inst_status" bundle="${lang}"/>:
         <select name="status">
             <%
                 for (Status status : Instruction.Status.values()) {
@@ -41,10 +44,12 @@
         </select>
     </p>
     <p>
-        <input type="submit"/>
-        <input type="reset"/>
+        <fmt:message key="owner.inst_submit" bundle="${lang}" var="inst_submit_lbl"/>
+        <input type="submit" value="${inst_submit_lbl}"/>
+        <fmt:message key="owner.inst_reset" bundle="${lang}" var="inst_reset_lbl"/>
+        <input type="reset" value="${inst_reset_lbl}"/>
     </p>
 </form>
 
-<h4>Done instructions:</h4>
+<h4><fmt:message key="owner.done_insts" bundle="${lang}"/>:</h4>
 <p><ex:ownerNotConfirmedTasks/></p>

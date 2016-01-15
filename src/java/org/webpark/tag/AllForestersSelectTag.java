@@ -58,7 +58,7 @@ public class AllForestersSelectTag extends SimpleTagSupport {
         if (allForesters == null || allForesters.isEmpty()) {
             return;
         }
-
+        
         JspWriter out = getJspContext().getOut();
         out.println(String.format("<select name=\"%s\">", WebTags.PERFORMED_BY_TAG));
         for(User forester : allForesters){
