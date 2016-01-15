@@ -21,11 +21,14 @@ public interface WebTags {
     String LANGUAGE_SELECT_TAG = "language";
     String LANGUAGE_FORM_TAG = "langform";
     String CURRENT_URI_TAG = "currentURI";
+    String INSTRUCTION_ID_TAG = "instructionId";
     String INSTRUCTION_TITLE_TAG = "title";
     String INSTRUCTION_CREATED_BY_TAG = "createdBy";
     String PERFORMED_BY_TAG = "performedBy";
     String TASK_PLANT_TAG = "plants";
     String TASK_TAG = "tasks";
     String INSTRUCTION_STATUS_TAG = "status";
+    String INSTRUCTION_STEP_ID_TAG = "stepId";
     String INSTRUCTION_STEP_STATUS_TAG = "stepStatus";
+    String INSTRUCTION_STEP_REPORT_TAG = "report";
 }

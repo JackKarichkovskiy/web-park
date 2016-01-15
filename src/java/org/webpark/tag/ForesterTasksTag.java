@@ -59,18 +59,20 @@ public class ForesterTasksTag extends SimpleTagSupport {
             out.println("<ol>");
             for (Instruction instruction : allForesterInstructions) {
                 out.println("<li>");
-                out.println("<form>");
+                out.println("<form method=\"POST\" action=\"/WebPark/Controller?command=updateInstructionStatuses\">");
+                out.println(String.format("<input type=\"hidden\" value=\"%s\" name=\"%s\"/>", instruction.getId(), WebTags.INSTRUCTION_ID_TAG));
                 out.println(String.format("<p>%s: %s</p>", "Title", instruction.getTitle()));
                 out.println(String.format("<p>%s:</p>", "Tasks"));
                 Map<String, List<Object>> allStepsInInstruction = instructionDao.getAllStepsInInstruction(instruction.getId().toString());
                 out.println("<ul>");
                 for (int i = 0; i < allStepsInInstruction.get(MySQLInstructionDaoService.GetAllStepsInInstructionResultTags.STEP_ID).size(); i++) {
                     out.println("<li>");
+                    out.println(String.format("<div><input type=\"hidden\" value=\"%s\" name=\"%s\"/></div>", allStepsInInstruction.get(MySQLInstructionDaoService.GetAllStepsInInstructionResultTags.STEP_ID).get(i), WebTags.INSTRUCTION_STEP_ID_TAG));
                     out.println(String.format("<div>%s: %s</div>", "Plant", allStepsInInstruction.get(MySQLInstructionDaoService.GetAllStepsInInstructionResultTags.PLANT_NAME).get(i)));
                     out.println(String.format("<div>%s: %s</div>", "Task", allStepsInInstruction.get(MySQLInstructionDaoService.GetAllStepsInInstructionResultTags.STEP_TASK).get(i)));
                     String report = (String) allStepsInInstruction.get(MySQLInstructionDaoService.GetAllStepsInInstructionResultTags.STEP_REPORT).get(i);
                     String notNullReport = report != null ? report : "";
-                    out.println(String.format("<div>%s: <input type=\"text\" value=\"%s\"/></div>", "Report", notNullReport));
+                    out.println(String.format("<div>%s: <input type=\"text\" value=\"%s\" name=\"%s\"/></div>", "Report", notNullReport, WebTags.INSTRUCTION_STEP_REPORT_TAG));
                     out.println(String.format("<select name=\"%s\">", WebTags.INSTRUCTION_STEP_STATUS_TAG));
                     for (InstructionStep.Status status : InstructionStep.Status.values()) {
                         String stepStatus = (String)allStepsInInstruction.get(MySQLInstructionDaoService.GetAllStepsInInstructionResultTags.STEP_STATUS).get(i);

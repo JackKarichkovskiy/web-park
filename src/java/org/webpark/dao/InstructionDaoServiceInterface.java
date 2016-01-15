@@ -24,4 +24,6 @@ public interface InstructionDaoServiceInterface {
     Map<String, List<Object>> getAllStepsInInstruction(String id) throws DAOException;
     
     void addNewInstruction(Instruction instruction, InstructionStep[] steps) throws DAOException;
+    
+    void updateInstructionStatuses(Instruction instruction, InstructionStep[] steps) throws DAOException;
 }

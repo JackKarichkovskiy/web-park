@@ -33,6 +33,17 @@ public class Instruction {
     @Stored(name = "status", converter = Converters.InstructionStatusConverter)
     private Status status;
 
+    public Instruction() {
+    }
+
+    public Instruction(UUID id, String title, UUID createdBy, UUID performedBy, Status status) {
+        this.id = id;
+        this.title = title;
+        this.createdBy = createdBy;
+        this.performedBy = performedBy;
+        this.status = status;
+    }
+    
     public UUID getId() {
         return id;
     }

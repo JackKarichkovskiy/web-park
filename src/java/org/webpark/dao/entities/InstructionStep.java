@@ -36,6 +36,18 @@ public class InstructionStep {
     @Stored(name = "status")
     private Status status;
 
+    public InstructionStep() {
+    }
+
+    public InstructionStep(UUID id, UUID plantId, UUID instructionId, String task, String report, Status status) {
+        this.id = id;
+        this.plantId = plantId;
+        this.instructionId = instructionId;
+        this.task = task;
+        this.report = report;
+        this.status = status;
+    }
+    
     public UUID getId() {
         return id;
     }
