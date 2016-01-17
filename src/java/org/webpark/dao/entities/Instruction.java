@@ -11,25 +11,41 @@ import org.webpark.dao.annotation.Stored;
 import org.webpark.dao.annotation.utils.converters.Converters;
 
 /**
+ * Entity that represents instruction to forester.
  *
  * @author Karichkovskiy Yevhen
  */
 @Stored(name = "instructions")
 public class Instruction {
-    
+
+    /**
+     * ID of instruction.
+     */
     @Primary
     @Stored(name = "id", converter = Converters.UUIDConverter)
     private UUID id;
-    
+
+    /**
+     * Title of instruction.
+     */
     @Stored(name = "title")
     private String title;
-    
+
+    /**
+     * ID of user that created the instruction.
+     */
     @Stored(name = "created_by", converter = Converters.UUIDConverter)
     private UUID createdBy;
-    
+
+    /**
+     * ID of user that execute the instruction.
+     */
     @Stored(name = "performed_by", converter = Converters.UUIDConverter)
     private UUID performedBy;
-    
+
+    /**
+     * Status of instruction.
+     */
     @Stored(name = "status", converter = Converters.InstructionStatusConverter)
     private Status status;
 
@@ -43,7 +59,7 @@ public class Instruction {
         this.performedBy = performedBy;
         this.status = status;
     }
-    
+
     public UUID getId() {
         return id;
     }
@@ -83,8 +99,12 @@ public class Instruction {
     public void setStatus(Status status) {
         this.status = status;
     }
-    
-    public enum Status{
+
+    /**
+     * Enumeration that stores possible statuses of instruction.
+     */
+    public enum Status {
+
         NEW, IN_PROGRESS, DONE, DONE_VERIFIED;
     }
 }

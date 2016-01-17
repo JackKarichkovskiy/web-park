@@ -12,14 +12,22 @@ import org.webpark.dao.entities.InstructionStep.Status;
 import org.webpark.locale.AppBundleFactory;
 
 /**
+ * Converts InstructionStep.Status object.
  *
  * @author Karichkovskiy Yevhen
  */
 public class InstructionStepStatusConverter implements Converter<Status> {
 
+    /**
+     * Error message tag for status converting errors.
+     */
     private static final String STATUS_CONVERT_ERROR_TAG = "log.status_convert_error";
+
+    /**
+     * Application standard locale bundle.
+     */
     private static final ResourceBundle BUNDLE = AppBundleFactory.getInstance().getAppBundle();
-    
+
     @Override
     public String toString(Status value) {
         if (value == null) {

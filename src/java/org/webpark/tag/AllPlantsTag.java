@@ -29,16 +29,40 @@ import org.webpark.locale.AppBundleFactory;
 import org.webpark.locale.Language;
 
 /**
+ * Class realizes custom jsp tag 'allPlants'.
  *
  * @author Karichkovskiy Yevhen
  */
 public class AllPlantsTag extends SimpleTagSupport {
 
+    /**
+     * Error message tag for some database operation problems.
+     */
     private static final String DATABASE_CONN_ERROR = "log.database_conn_error";
+
+    /**
+     * Application standard locale bundle.
+     */
     private static final ResourceBundle BUNDLE = AppBundleFactory.getInstance().getAppBundle();
+
+    /**
+     * Class of Plant entity.
+     */
     private static final Class<Plant> PLANT_CLASS = Plant.class;
+
+    /**
+     * URI that refers to error page.
+     */
     private static final String ERROR_PAGE = UriBuilder.getUri("error_page", CommandResult.JumpType.FORWARD);
 
+    /**
+     * HTTP error code status if some problems occurs.
+     */
+    private static final int ERROR_CODE = 500;
+
+    /**
+     * Title of plants table. Serves as an attribute of custom tag.
+     */
     private String title;
 
     public void setTitle(String title) {
@@ -59,7 +83,7 @@ public class AllPlantsTag extends SimpleTagSupport {
             String errorMessage = BUNDLE.getString(DATABASE_CONN_ERROR);
             Logger.getLogger(AllPlantsTag.class).error(errorMessage, ex);
             request.setAttribute(WebTags.ERROR_MESSAGE_TAG, errorMessage);
-            request.setAttribute(WebTags.ERROR_CODE_TAG, 500);
+            request.setAttribute(WebTags.ERROR_CODE_TAG, ERROR_CODE);
             try {
                 request.getRequestDispatcher(ERROR_PAGE).forward(request, response);
             } catch (ServletException ex1) {
@@ -70,7 +94,7 @@ public class AllPlantsTag extends SimpleTagSupport {
         if (allPlants == null || allPlants.isEmpty()) {
             return;
         }
-        Locale curLocale = (Locale)Config.get(session, Config.FMT_LOCALE);
+        Locale curLocale = (Locale) Config.get(session, Config.FMT_LOCALE);
         Language sessionLang = Language.getLanguageByLocale(curLocale);
         ResourceBundle sessionBundle = AppBundleFactory.getInstance().createBundle(sessionLang);
 
@@ -101,8 +125,12 @@ public class AllPlantsTag extends SimpleTagSupport {
         }
         out.println("</table>");
     }
-    
-    private interface LocaleKeys{
+
+    /**
+     * Keys in locale properties file.
+     */
+    private interface LocaleKeys {
+
         String NUMBER = "plant_tag.number";
         String NAME = "plant_tag.name";
         String ORIGIN = "plant_tag.origin";

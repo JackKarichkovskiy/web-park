@@ -9,6 +9,7 @@ import java.util.UUID;
 import org.webpark.dao.annotation.utils.Converter;
 
 /**
+ * Converts UUID object.
  *
  * @author Karichkovskiy Yevhen
  */

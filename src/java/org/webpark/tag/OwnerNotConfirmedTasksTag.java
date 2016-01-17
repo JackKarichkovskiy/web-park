@@ -35,14 +35,35 @@ import org.webpark.locale.AppBundleFactory;
 import org.webpark.locale.Language;
 
 /**
+ * Class realizes custom jsp tag 'ownerNotConfirmedTasks'.
  *
  * @author Karichkovskiy Yevhen
  */
 public class OwnerNotConfirmedTasksTag extends SimpleTagSupport {
 
+    /**
+     * Error message tag for some database operation problems.
+     */
     private static final String DATABASE_CONN_ERROR = "log.database_conn_error";
+
+    /**
+     * Application standard locale bundle.
+     */
     private static final ResourceBundle BUNDLE = AppBundleFactory.getInstance().getAppBundle();
+
+    /**
+     * URI that refers to error page.
+     */
     private static final String ERROR_PAGE = UriBuilder.getUri("error_page", CommandResult.JumpType.FORWARD);
+
+    /**
+     * HTTP error code status if some problems occurs.
+     */
+    private static final int ERROR_CODE = 500;
+
+    /**
+     * Class of User entity.
+     */
     private static final Class<User> USER_CLASS = User.class;
 
     @Override
@@ -56,7 +77,7 @@ public class OwnerNotConfirmedTasksTag extends SimpleTagSupport {
         Locale curLocale = (Locale) Config.get(session, Config.FMT_LOCALE);
         Language sessionLang = Language.getLanguageByLocale(curLocale);
         ResourceBundle sessionBundle = AppBundleFactory.getInstance().createBundle(sessionLang);
-        
+
         InstructionDaoServiceInterface instructionDao = AppDaoFactory.getInstance().getInstructionDao();
 
         List<Instruction> allOwnerInstructions;
@@ -85,7 +106,7 @@ public class OwnerNotConfirmedTasksTag extends SimpleTagSupport {
                     out.println(String.format("<div>%s: %s</div>", sessionBundle.getString(LocaleKeys.REPORT), allStepsInInstruction.get(MySQLInstructionDaoService.GetAllStepsInInstructionResultTags.STEP_REPORT).get(i)));
                     out.println(String.format("<select name=\"%s\">", WebTags.INSTRUCTION_STEP_STATUS_TAG));
                     for (InstructionStep.Status status : InstructionStep.Status.values()) {
-                        String stepStatus = (String)allStepsInInstruction.get(MySQLInstructionDaoService.GetAllStepsInInstructionResultTags.STEP_STATUS).get(i);
+                        String stepStatus = (String) allStepsInInstruction.get(MySQLInstructionDaoService.GetAllStepsInInstructionResultTags.STEP_STATUS).get(i);
                         String selected = status.equals(InstructionStep.Status.valueOf(stepStatus)) ? "selected=\"selected\"" : "";
                         out.println(String.format("<option %s>%s</option>", selected, status));
                     }
@@ -108,7 +129,7 @@ public class OwnerNotConfirmedTasksTag extends SimpleTagSupport {
             String errorMessage = BUNDLE.getString(DATABASE_CONN_ERROR);
             Logger.getLogger(AllPlantsTag.class).error(errorMessage, ex);
             request.setAttribute(WebTags.ERROR_MESSAGE_TAG, errorMessage);
-            request.setAttribute(WebTags.ERROR_CODE_TAG, 500);
+            request.setAttribute(WebTags.ERROR_CODE_TAG, ERROR_CODE);
             try {
                 request.getRequestDispatcher(ERROR_PAGE).forward(request, response);
             } catch (ServletException ex1) {
@@ -116,8 +137,12 @@ public class OwnerNotConfirmedTasksTag extends SimpleTagSupport {
             }
         }
     }
-    
-    private interface LocaleKeys{
+
+    /**
+     * Keys in locale properties file.
+     */
+    private interface LocaleKeys {
+
         String TITLE = "owner_not_confirmed_tasks_tag.title";
         String EXECUTOR = "owner_not_confirmed_tasks_tag.executor";
         String TASKS = "owner_not_confirmed_tasks_tag.tasks";

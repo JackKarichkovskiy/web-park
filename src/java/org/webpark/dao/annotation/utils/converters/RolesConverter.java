@@ -12,14 +12,22 @@ import org.webpark.dao.entities.User.Roles;
 import org.webpark.locale.AppBundleFactory;
 
 /**
+ * Converts User.Roles object.
  *
  * @author Karichkovskiy Yevhen
  */
 public class RolesConverter implements Converter<Roles> {
 
+    /**
+     * Error message tag for role converting errors.
+     */
     private static final String ROLE_CONVERT_ERROR_TAG = "log.role_convert_error";
+
+    /**
+     * Application standard locale bundle.
+     */
     private static final ResourceBundle BUNDLE = AppBundleFactory.getInstance().getAppBundle();
-    
+
     @Override
     public String toString(Roles value) {
         if (value == null) {

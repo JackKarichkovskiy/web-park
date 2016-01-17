@@ -6,6 +6,7 @@
 package org.webpark.dao.exception;
 
 /**
+ * Exception occurs when Entity field not marked with Stored annotation.
  *
  * @author Karichkovskiy Yevhen
  */

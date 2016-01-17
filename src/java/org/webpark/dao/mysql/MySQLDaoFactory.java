@@ -13,10 +13,11 @@ import org.webpark.dao.mysql.instruction.MySQLInstructionDaoService;
 import org.webpark.dao.mysql.user.MySQLUserDaoService;
 
 /**
+ * Class that realizes MySQL DAO factory.
  *
  * @author Karichkovskiy Yevhen
  */
-public class MySQLDaoFactory extends DaoFactory{
+public class MySQLDaoFactory extends DaoFactory {
 
     @Override
     public CRUDDaoInterface getCRUDDao() {
@@ -25,12 +26,12 @@ public class MySQLDaoFactory extends DaoFactory{
 
     @Override
     public UserDaoServiceInterface getUserDao() {
-       return MySQLUserDaoService.getInstance();
+        return MySQLUserDaoService.getInstance();
     }
 
     @Override
     public InstructionDaoServiceInterface getInstructionDao() {
         return MySQLInstructionDaoService.getInstance();
     }
-    
+
 }

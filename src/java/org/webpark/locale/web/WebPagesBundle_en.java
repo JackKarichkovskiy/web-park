@@ -6,20 +6,19 @@
 package org.webpark.locale.web;
 
 import java.util.ResourceBundle;
-import org.apache.log4j.Logger;
 import org.webpark.locale.Language;
 
 /**
+ * EN localization for jsp pages.
  *
  * @author Karichkovskiy Yevhen
  */
-public class WebPagesBundle_en extends WebPagesBundle{
+public class WebPagesBundle_en extends WebPagesBundle {
 
     @Override
     protected Object[][] getContents() {
         ResourceBundle bundle = factory.createBundle(Language.EN);
         return loadBundle(bundle);
     }
-    
-    
+
 }

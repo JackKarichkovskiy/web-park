@@ -7,23 +7,33 @@ package org.webpark.configuration;
 
 import java.io.IOException;
 import java.util.Properties;
-import java.util.ResourceBundle;
 import org.apache.log4j.Logger;
 import org.webpark.configuration.exception.ConfigurationLoadingException;
 import org.webpark.dao.DaoConfiguration;
-import org.webpark.locale.AppBundleFactory;
 import org.webpark.utils.ProjectUtils;
 
 /**
+ * Abstract class that loads some configuration file.
  *
  * @author Karichkovskiy Yevhen
  */
 public abstract class AbstractConfiguration implements Configuration {
 
+    /**
+     * Error detail message.
+     */
     private static final String ERROR_CONF_LOAD = "Some problems with loading config file %s";
 
+    /**
+     * Property file object.
+     */
     protected Properties daoProp;
 
+    /**
+     * Constructor for loading a configuration from config path.
+     *
+     * @param confPath - path of config file
+     */
     protected AbstractConfiguration(String confPath) {
         try {
             daoProp = ProjectUtils.loadProperties(confPath);

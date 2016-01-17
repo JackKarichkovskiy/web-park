@@ -11,25 +11,41 @@ import org.webpark.dao.annotation.Stored;
 import org.webpark.dao.annotation.utils.converters.Converters;
 
 /**
+ * Entity that represents plant in Park.
  *
  * @author Karichkovskiy Yevhen
  */
 @Stored(name = "plants")
 public class Plant {
 
+    /**
+     * ID of plant.
+     */
     @Primary
     @Stored(name = "id", converter = Converters.UUIDConverter)
     private UUID id;
 
+    /**
+     * Name of plant.
+     */
     @Stored(name = "name")
     private String name;
 
+    /**
+     * Color of plant.
+     */
     @Stored(name = "color")
     private String color;
 
+    /**
+     * Origin of plant.
+     */
     @Stored(name = "origin")
     private String origin;
 
+    /**
+     * Number of sector where the plant is located.
+     */
     @Stored(name = "sector", converter = Converters.IntConverter)
     private int sector;
 
@@ -77,5 +93,5 @@ public class Plant {
     public String toString() {
         return "Plant{" + "id=" + id + ", name=" + name + ", color=" + color + ", origin=" + origin + ", sector=" + sector + '}';
     }
-    
+
 }

@@ -27,15 +27,25 @@ import org.webpark.dao.mysql.MySQLDaoConfiguration;
 import static org.webpark.utils.ProjectUtils.checkNotNull;
 
 /**
+ * Class that realizes InstructionDao for MySQL database.
  *
  * @author Karichkovskiy Yevhen
  */
 public class MySQLInstructionDaoService implements InstructionDaoServiceInterface {
 
+    /**
+     * Config file with sql queries for mysql database.
+     */
     private final static MySQLDaoConfiguration DAO_CONF = MySQLDaoConfiguration.getInstance();
 
+    /**
+     * Pool connections holder object.
+     */
     private final static DaoConnection CONN_HOLDER = DaoConnection.getInstance();
 
+    /**
+     * Class of Instruction entity.
+     */
     private final static Class<Instruction> INSTRUCTION_CLASS = Instruction.class;
 
     private MySQLInstructionDaoService() {
@@ -53,7 +63,7 @@ public class MySQLInstructionDaoService implements InstructionDaoServiceInterfac
         if (getOwnerInstructions == null) {
             throw new DAOException(new ConfigurationPropertyNotFoundException());
         }
-        
+
         String convertedId = DAOUtils.convertFieldToString(id);
         String getOwnerInstructionsQuery = String.format(getOwnerInstructions, convertedId);
 
@@ -61,7 +71,7 @@ public class MySQLInstructionDaoService implements InstructionDaoServiceInterfac
 
         return AppDaoFactory.getInstance().getCRUDDao().select(INSTRUCTION_CLASS, getOwnerInstructionsQuery);
     }
-    
+
     @Override
     public List<Instruction> getAllNotDoneInstructionsByForester(String id) throws DAOException {
         checkNotNull(id);
@@ -78,7 +88,7 @@ public class MySQLInstructionDaoService implements InstructionDaoServiceInterfac
 
         return AppDaoFactory.getInstance().getCRUDDao().select(INSTRUCTION_CLASS, getForesterInstructionsQuery);
     }
-    
+
     @Override
     public void addNewInstruction(Instruction instruction, InstructionStep[] steps) throws DAOException {
         checkNotNull(instruction);
@@ -168,7 +178,7 @@ public class MySQLInstructionDaoService implements InstructionDaoServiceInterfac
             updateInstructionStmt.setString(1, instruction.getStatus().toString());
             updateInstructionStmt.setString(2, instruction.getId().toString());
             updateInstructionStmt.executeUpdate();
-            
+
             PreparedStatement updateStepStmt = connection.prepareStatement(updateStep);
             for (InstructionStep step : steps) {
                 updateStepStmt.setString(1, step.getReport());
@@ -176,7 +186,7 @@ public class MySQLInstructionDaoService implements InstructionDaoServiceInterfac
                 updateStepStmt.setString(3, step.getId().toString());
                 updateStepStmt.executeUpdate();
             }
-            
+
             connection.commit();
         } catch (SQLException ex) {
             try {
@@ -224,7 +234,7 @@ public class MySQLInstructionDaoService implements InstructionDaoServiceInterfac
             updateInstructionStmt.setString(1, instruction.getStatus().toString());
             updateInstructionStmt.setString(2, instruction.getId().toString());
             updateInstructionStmt.executeUpdate();
-            
+
             PreparedStatement updateStepStmt = connection.prepareStatement(updateStep);
             for (InstructionStep step : steps) {
                 updateStepStmt.setString(1, step.getTask());
@@ -232,7 +242,7 @@ public class MySQLInstructionDaoService implements InstructionDaoServiceInterfac
                 updateStepStmt.setString(3, step.getId().toString());
                 updateStepStmt.executeUpdate();
             }
-            
+
             connection.commit();
         } catch (SQLException ex) {
             try {
@@ -251,7 +261,7 @@ public class MySQLInstructionDaoService implements InstructionDaoServiceInterfac
             }
         }
     }
-    
+
     @Override
     public Map<String, List<Object>> getAllStepsInInstruction(String id) throws DAOException {
         checkNotNull(id);
@@ -301,6 +311,12 @@ public class MySQLInstructionDaoService implements InstructionDaoServiceInterfac
         return resultFields;
     }
 
+    /**
+     * Method that created empty lists for GetAllStepsInInstructionResult
+     * result.
+     *
+     * @param result - result where will be stored data from database answer
+     */
     private void initGetAllStepsInInstructionResult(Map<String, List<Object>> result) {
         result.put(GetAllStepsInInstructionResultTags.STEP_ID, new ArrayList<>());
         result.put(GetAllStepsInInstructionResultTags.PLANT_ID, new ArrayList<>());
@@ -311,6 +327,9 @@ public class MySQLInstructionDaoService implements InstructionDaoServiceInterfac
         result.put(GetAllStepsInInstructionResultTags.PLANT_NAME, new ArrayList<>());
     }
 
+    /**
+     * Tags - col names for result table from database
+     */
     public interface GetAllStepsInInstructionResultTags {
 
         String STEP_ID = "id";
@@ -328,6 +347,9 @@ public class MySQLInstructionDaoService implements InstructionDaoServiceInterfac
         String PLANT_NAME = "plant_name";
     }
 
+    /**
+     * Tags for sql queries that stored in mysql dao config file.
+     */
     private interface Queries {
 
         String ADD_INSTRUCTION = "instruction.add_instruction";
@@ -335,7 +357,7 @@ public class MySQLInstructionDaoService implements InstructionDaoServiceInterfac
         String ADD_STEP = "instruction.add_step";
 
         String GET_NOT_CONFIRMED_INSTRUCTIONS_BY_OWNER = "instruction.get_not_confirmed_instructions";
-        
+
         String GET_FORESTER_INSTRUCTIONS = "instruction.get_forester_instructions";
 
         String GET_INSTRUCTION_STEPS = "instruction.get_instruction_steps";
@@ -343,7 +365,7 @@ public class MySQLInstructionDaoService implements InstructionDaoServiceInterfac
         String UPDATE_INSTRUCTION_STATUS = "instruction.update_instruction_status";
 
         String UPDATE_INSTRUCTION_STEP_STATUS = "instruction.update_instruction_step_status";
-        
+
         String UPDATE_NOT_CONFIRMED_INSTRUCTION_STEP_STATUS = "instruction.update_not_confirmed_instruction_step_status";
     }
 

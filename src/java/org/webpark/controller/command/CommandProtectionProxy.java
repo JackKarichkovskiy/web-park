@@ -17,18 +17,41 @@ import org.webpark.locale.AppBundleFactory;
 import static org.webpark.utils.ProjectUtils.checkNotNull;
 
 /**
+ * Proxy of Command object for protection from not allowed users of using.
+ * In 'execute' method class identify if current user have access to real Command.
  *
  * @author Karichkovskiy Yevhen
  */
 class CommandProtectionProxy implements Command {
 
+    /**
+     * Logging message if new user try to execute some command.
+     */
     private static final String NEW_GUEST_TAG = "log.new_guest";
+    
+    /**
+     * Application standard locale bundle.
+     */
     private static final ResourceBundle BUNDLE = AppBundleFactory.getInstance().getAppBundle();
-    private static final String ACCESS_PAGE_TAG = "access_denied_page";
-    private static final String ACCESS_PAGE = UriBuilder.getUri(ACCESS_PAGE_TAG);
+    
+    /**
+     * URI tag to the page with access denied message.
+     */
+    private static final String ACCESS_PAGE = UriBuilder.getUri("access_denied_page");
+    
+    /**
+     * Class of annotation for detection allowed roles for using the command.
+     */
     private static final Class<RolesAllowed> SECURE_ANNO_CLASS = RolesAllowed.class;
 
+    /**
+     * Real Command object.
+     */
     private Command command;
+    
+    /**
+     * Class of real Command object.
+     */
     private Class<? extends Command> commandClass;
 
     public CommandProtectionProxy(Command command) {
@@ -40,15 +63,15 @@ class CommandProtectionProxy implements Command {
     public CommandResult execute(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession(false);
         User user;
-        if (session == null || session.isNew() ||
-                (user = (User) session.getAttribute(WebTags.SESSION_USER_TAG)) == null) {
+        if (session == null || session.isNew()
+                || (user = (User) session.getAttribute(WebTags.SESSION_USER_TAG)) == null) {
             session = request.getSession();
             user = new User();
             user.setRole(Roles.GUEST);
             session.setAttribute(WebTags.SESSION_USER_TAG, user);
             Logger.getLogger(CommandProtectionProxy.class).
-                    info(String.format(BUNDLE.getString(NEW_GUEST_TAG), 
-                            command.getClass().getSimpleName()));
+                    info(String.format(BUNDLE.getString(NEW_GUEST_TAG),
+                                    command.getClass().getSimpleName()));
         }
 
         if (!commandClass.isAnnotationPresent(SECURE_ANNO_CLASS)) {

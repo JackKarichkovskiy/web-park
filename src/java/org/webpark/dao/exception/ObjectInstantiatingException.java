@@ -6,6 +6,7 @@
 package org.webpark.dao.exception;
 
 /**
+ * Exception occurs when some problems with reflection object instantiating.
  *
  * @author Karichkovskiy Yevhen
  */
@@ -35,6 +36,5 @@ public class ObjectInstantiatingException extends Exception {
     public ObjectInstantiatingException(Throwable cause) {
         super(cause);
     }
-    
-    
+
 }

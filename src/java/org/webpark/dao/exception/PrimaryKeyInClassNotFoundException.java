@@ -6,10 +6,11 @@
 package org.webpark.dao.exception;
 
 /**
+ * Exception occurs when not found primary key in class.
  *
  * @author Karichkovskiy Yevhen
  */
-public class PrimaryKeyInClassNotFoundException extends Exception{
+public class PrimaryKeyInClassNotFoundException extends Exception {
 
     public PrimaryKeyInClassNotFoundException() {
     }
@@ -29,5 +30,5 @@ public class PrimaryKeyInClassNotFoundException extends Exception{
     public PrimaryKeyInClassNotFoundException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
-    
+
 }

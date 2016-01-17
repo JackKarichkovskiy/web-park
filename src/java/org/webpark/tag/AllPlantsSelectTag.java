@@ -25,15 +25,36 @@ import org.webpark.dao.exception.DAOException;
 import org.webpark.locale.AppBundleFactory;
 
 /**
- *
+ * Class realizes custom jsp tag 'allPlantsSelect'.
+ * 
  * @author Karichkovskiy Yevhen
  */
 public class AllPlantsSelectTag extends SimpleTagSupport {
 
+    /**
+     * Error message tag for some database operation problems.
+     */
     private static final String DATABASE_CONN_ERROR = "log.database_conn_error";
+
+    /**
+     * Application standard locale bundle.
+     */
     private static final ResourceBundle BUNDLE = AppBundleFactory.getInstance().getAppBundle();
+
+    /**
+     * Class of Plant entity.
+     */
     private static final Class<Plant> PLANT_CLASS = Plant.class;
+
+    /**
+     * URI that refers to error page.
+     */
     private static final String ERROR_PAGE = UriBuilder.getUri("error_page", CommandResult.JumpType.FORWARD);
+
+    /**
+     * HTTP error code status if some problems occurs.
+     */
+    private static final int ERROR_CODE = 500;
 
     @Override
     public void doTag() throws JspException, IOException {
@@ -48,7 +69,7 @@ public class AllPlantsSelectTag extends SimpleTagSupport {
             String errorMessage = BUNDLE.getString(DATABASE_CONN_ERROR);
             Logger.getLogger(AllPlantsSelectTag.class).error(errorMessage, ex);
             request.setAttribute(WebTags.ERROR_MESSAGE_TAG, errorMessage);
-            request.setAttribute(WebTags.ERROR_CODE_TAG, 500);
+            request.setAttribute(WebTags.ERROR_CODE_TAG, ERROR_CODE);
             try {
                 request.getRequestDispatcher(ERROR_PAGE).forward(request, response);
             } catch (ServletException ex1) {
@@ -62,7 +83,7 @@ public class AllPlantsSelectTag extends SimpleTagSupport {
 
         JspWriter out = getJspContext().getOut();
         out.println(String.format("<select name=\"%s\">", WebTags.TASK_PLANT_TAG));
-        for(Plant plant : allPlants){
+        for (Plant plant : allPlants) {
             out.println(String.format("<option value=\"%s\">%s</option>", plant.getId(), plant.getName()));
         }
         out.println("</select>");

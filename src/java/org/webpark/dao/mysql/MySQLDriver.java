@@ -13,7 +13,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 import org.apache.log4j.Logger;
 import org.webpark.dao.CRUDDaoInterface;
 import org.webpark.dao.DaoConnection;
@@ -25,20 +24,35 @@ import org.webpark.dao.exception.EntityNotStoredException;
 import static org.webpark.utils.ProjectUtils.checkNotNull;
 
 /**
+ * Class that realizes CRUD driver to work with MySQL database.
  *
  * @author Karichkovskiy Yevhen
  */
 public class MySQLDriver implements CRUDDaoInterface {
 
+    /**
+     * Config file with sql queries for mysql database.
+     */
     private final static MySQLDaoConfiguration DAO_CONF = MySQLDaoConfiguration.getInstance();
 
+    /**
+     * Pool connections holder object.
+     */
     private final static DaoConnection CONN_HOLDER = DaoConnection.getInstance();
 
+    /**
+     * Singleton instance.
+     */
     private static MySQLDriver instance;
 
     private MySQLDriver(String dummyStr) {
     }
 
+    /**
+     * Returns Singleton instance.
+     *
+     * @return Singleton instance
+     */
     public static MySQLDriver getInstance() {
         if (instance == null) {
             return new MySQLDriver(null);
@@ -83,7 +97,7 @@ public class MySQLDriver implements CRUDDaoInterface {
                         map.put(field.getAnnotation(DAOUtils.STORED_ANNO_CLASS).name(), rs.getString(field.getAnnotation(DAOUtils.STORED_ANNO_CLASS).name()));
                     }
                 }
-                return DAOUtils.MapToEntity(entityClass, map);
+                return DAOUtils.mapToEntity(entityClass, map);
             }
         } catch (SQLException ex) {
             throw new DAOException(ex);
@@ -249,7 +263,7 @@ public class MySQLDriver implements CRUDDaoInterface {
     public <T> List<T> select(Class< T> entityClass, String sqlString) throws DAOException {
         checkNotNull(entityClass);
         checkNotNull(sqlString);
-        
+
         List<T> resultList = new ArrayList<>();
 
         Connection connection = null;
@@ -296,6 +310,9 @@ public class MySQLDriver implements CRUDDaoInterface {
         return select(entityClass, query);
     }
 
+    /**
+     * Tags for sql queries that stored in mysql dao config file.
+     */
     private interface Queries {
 
         String READ_QUERY = "read_query";

@@ -15,12 +15,16 @@ import javax.servlet.annotation.WebListener;
 import org.apache.log4j.PropertyConfigurator;
 
 /**
+ * Class that initialize Log4j Logger and uses config file.
  *
  * @author Karichkovskiy Yevhen
  */
 @WebListener("application context listener")
 public class ContextListener implements ServletContextListener {
 
+    /**
+     * Context param for log4j resource location.
+     */
     private static final String lOG4J_CONTEXT_PARAM = "log4j-config-location";
 
     /**

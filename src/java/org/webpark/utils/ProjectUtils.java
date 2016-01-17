@@ -6,13 +6,11 @@
 package org.webpark.utils;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Properties;
-import java.util.logging.Level;
-import org.apache.log4j.Logger;
-import org.webpark.dao.DaoConfiguration;
 
 /**
+ * Class stores some general methods that help through over the whole
+ * application.
  *
  * @author Karichkovskiy Yevhen
  */
@@ -34,9 +32,16 @@ public class ProjectUtils {
         return obj;
     }
 
+    /**
+     * Method loads and constructs Properties object from some config file.
+     *
+     * @param confPath - location of config file
+     * @return Properties object that represents config file
+     * @throws IOException - if IO problems
+     */
     public static final Properties loadProperties(String confPath) throws IOException {
         checkNotNull(confPath);
-        
+
         Properties resultProp = new Properties();
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 

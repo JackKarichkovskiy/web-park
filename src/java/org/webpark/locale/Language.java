@@ -8,6 +8,7 @@ package org.webpark.locale;
 import java.util.Locale;
 
 /**
+ * Enumeration of available languages in application.
  *
  * @author Karichkovskiy Yevhen
  */
@@ -15,10 +16,19 @@ public enum Language {
 
     EN(Locale.US), RU("ru", "RU"), UA("uk", "UA");
 
+    /**
+     * Language code.
+     */
     private final String lang;
 
+    /**
+     * Country code.
+     */
     private final String country;
 
+    /**
+     * Locale object of language.
+     */
     private final Locale locale;
 
     private Language(String lang, String country) {
@@ -32,7 +42,7 @@ public enum Language {
         this.lang = locale.getLanguage();
         this.country = locale.getCountry();
     }
-    
+
     public String getCountry() {
         return country;
     }
@@ -44,19 +54,31 @@ public enum Language {
     public Locale getLocale() {
         return locale;
     }
-    
-    public static Language getLanguageByLocale(Locale locale){
-        for(Language lang : Language.values()){
-            if(lang.getLocale().equals(locale)){
+
+    /**
+     * Finds Language by locale object.
+     *
+     * @param locale - input locale
+     * @return Language enumeration value
+     */
+    public static Language getLanguageByLocale(Locale locale) {
+        for (Language lang : Language.values()) {
+            if (lang.getLocale().equals(locale)) {
                 return lang;
             }
         }
         return null;
     }
-    
-    public static Language getLanguageByShortLang(String shortLang){
-        for(Language lang : Language.values()){
-            if(lang.getLang().equals(shortLang)){
+
+    /**
+     * Finds Language by lang code string.
+     *
+     * @param shortLang - input lang code
+     * @return Language enumeration value
+     */
+    public static Language getLanguageByShortLang(String shortLang) {
+        for (Language lang : Language.values()) {
+            if (lang.getLang().equals(shortLang)) {
                 return lang;
             }
         }

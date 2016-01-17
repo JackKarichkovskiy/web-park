@@ -12,27 +12,47 @@ import org.webpark.dao.annotation.Stored;
 import org.webpark.dao.annotation.utils.converters.Converters;
 
 /**
+ * Entity that represents user in system.
  *
  * @author Karichkovskiy Yevhen
  */
 @Stored(name = "users")
 public class User {
+
+    /**
+     * ID of user.
+     */
     @Primary
     @Stored(name = "id", converter = Converters.UUIDConverter)
     private UUID id;
-    
+
+    /**
+     * Login name of user.
+     */
     @Stored(name = "username")
     private String username;
-    
+
+    /**
+     * Password of user.
+     */
     @Stored(name = "password")
     private String password;
-    
+
+    /**
+     * Email of user.
+     */
     @Stored(name = "email")
     private String email;
-    
+
+    /**
+     * The date of creating current user.
+     */
     @Stored(name = "create_time", converter = Converters.DateConverter)
     private Date createTime;
-    
+
+    /**
+     * Role of user.
+     */
     @Stored(name = "role", converter = Converters.RolesConverter)
     private Roles role;
 
@@ -88,9 +108,13 @@ public class User {
     public String toString() {
         return "User{" + "id=" + id + ", userName=" + username + ", password=" + password + ", email=" + email + ", createTime=" + createTime + ", role=" + role + '}';
     }
-    
-    public enum Roles{
+
+    /**
+     * Possible roles for user in system.
+     */
+    public enum Roles {
+
         ADMIN, OWNER, FORESTER, GUEST;
     }
-    
+
 }

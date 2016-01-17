@@ -14,15 +14,27 @@ import org.webpark.dao.annotation.utils.Converter;
 import org.webpark.locale.AppBundleFactory;
 
 /**
+ * Converts Date object.
  *
  * @author Karichkovskiy Yevhen
  */
 public class DateConverter implements Converter<Date> {
 
+    /**
+     * Error message tag for date converting errors.
+     */
     private static final String DATE_CONVERT_ERROR_TAG = "log.date_convert_error";
+
+    /**
+     * Application standard locale bundle.
+     */
     private static final ResourceBundle BUNDLE = AppBundleFactory.getInstance().getAppBundle();
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
     
+    /**
+     * Format of date in database.
+     */
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+
     @Override
     public String toString(Date value) {
         if (value == null) {

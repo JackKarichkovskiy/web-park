@@ -6,6 +6,7 @@
 package org.webpark.dao.exception;
 
 /**
+ * General exception for dao problems.
  *
  * @author Karichkovskiy Yevhen
  */

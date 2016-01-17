@@ -8,7 +8,7 @@ package org.webpark.dao.annotation.utils.converters;
 import org.webpark.dao.annotation.utils.Converter;
 
 /**
- *
+ * Converts Integer object.
  * @author Karichkovskiy Yevhen
  */
 class IntConverter implements Converter<Integer> {

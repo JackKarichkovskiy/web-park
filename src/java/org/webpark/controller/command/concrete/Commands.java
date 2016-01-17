@@ -8,10 +8,12 @@ package org.webpark.controller.command.concrete;
 import org.webpark.controller.command.Command;
 
 /**
+ * Enumeration that contains all commands available to application.
  *
  * @author Karichkovskiy Yevhen
  */
 public enum Commands {
+
     LOG_IN("logIn", new LogInCommand()),
     LOG_OUT("logOut", new LogOutCommand()),
     CHANGE_LANGUAGE("changeLang", new ChangeLanguageCommand()),
@@ -20,8 +22,14 @@ public enum Commands {
     UPDATE_NOT_CONFIRMED_INSTRUCTION_STATUSES("updateNotConfirmedInstructionStatuses", new UpdateNotConfirmedInstructionCommand()),
     ;
     
+    /**
+     * Name of command that used in Controller to identify command.
+     */
     private final String commandName;
-    
+
+    /**
+     * Realization of command.
+     */
     private final Command command;
 
     private Commands(String commandName, Command command) {
@@ -36,5 +44,5 @@ public enum Commands {
     public String getCommandName() {
         return commandName;
     }
-    
+
 }

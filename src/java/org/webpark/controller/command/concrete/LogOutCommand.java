@@ -12,11 +12,15 @@ import org.webpark.controller.command.CommandResult;
 import org.webpark.controller.uri.UriBuilder;
 
 /**
+ * Command that log out a user.
  *
  * @author Karichkovskiy Yevhen
  */
 class LogOutCommand implements Command {
 
+    /**
+     * URI that refers to index page.
+     */
     private static final String INIT_PAGE = UriBuilder.getUri("init_page", CommandResult.JumpType.REDIRECT);
 
     @Override

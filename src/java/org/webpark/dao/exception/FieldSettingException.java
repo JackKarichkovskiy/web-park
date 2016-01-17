@@ -6,6 +6,7 @@
 package org.webpark.dao.exception;
 
 /**
+ * Exception occurs when some problems with reflection writing to field.
  *
  * @author Karichkovskiy Yevhen
  */
@@ -35,6 +36,5 @@ public class FieldSettingException extends Exception {
     public FieldSettingException(Throwable cause) {
         super(cause);
     }
-    
-    
+
 }

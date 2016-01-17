@@ -6,6 +6,8 @@
 package org.webpark.configuration.exception;
 
 /**
+ * Class represents an exception that occurs when there are some problems with
+ * configuration loading.
  *
  * @author Karichkovskiy Yevhen
  */

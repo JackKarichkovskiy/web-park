@@ -8,13 +8,22 @@ package org.webpark.dao;
 import org.webpark.configuration.AbstractConfiguration;
 
 /**
+ * Basic DAO configuration.
  *
  * @author Karichkovskiy Yevhen
  */
 public class DaoConfiguration extends AbstractConfiguration {
 
+    /**
+     * Location of dao config file.
+     */
     private static final String DEFAULT_CONF_PATH = "dao.properties";
 
+    /**
+     * Returns Singleton instance.
+     *
+     * @return Singleton instance
+     */
     public static DaoConfiguration getInstance() {
         return DaoConfigurationHolder.INSTANCE;
     }

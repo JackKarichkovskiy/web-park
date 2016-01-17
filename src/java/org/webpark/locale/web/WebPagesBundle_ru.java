@@ -6,10 +6,10 @@
 package org.webpark.locale.web;
 
 import java.util.ResourceBundle;
-import org.apache.log4j.Logger;
 import org.webpark.locale.Language;
 
 /**
+ * RU localization for jsp pages.
  *
  * @author Karichkovskiy Yevhen
  */

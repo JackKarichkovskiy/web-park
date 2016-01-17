@@ -34,14 +34,31 @@ import org.webpark.locale.AppBundleFactory;
 import org.webpark.locale.Language;
 
 /**
+ * Class realizes custom jsp tag 'foresterTasks'.
  *
  * @author Karichkovskiy Yevhen
  */
 public class ForesterTasksTag extends SimpleTagSupport {
 
+    /**
+     * Error message tag for some database operation problems.
+     */
     private static final String DATABASE_CONN_ERROR = "log.database_conn_error";
+
+    /**
+     * Application standard locale bundle.
+     */
     private static final ResourceBundle BUNDLE = AppBundleFactory.getInstance().getAppBundle();
+
+    /**
+     * URI that refers to error page.
+     */
     private static final String ERROR_PAGE = UriBuilder.getUri("error_page", CommandResult.JumpType.FORWARD);
+
+    /**
+     * HTTP error code status if some problems occurs.
+     */
+    private static final int ERROR_CODE = 500;
 
     @Override
     public void doTag() throws JspException, IOException {
@@ -57,7 +74,7 @@ public class ForesterTasksTag extends SimpleTagSupport {
 
         InstructionDaoServiceInterface instructionDao = AppDaoFactory.getInstance().getInstructionDao();
 
-        List<Instruction> allForesterInstructions = null;
+        List<Instruction> allForesterInstructions;
         try {
             allForesterInstructions = instructionDao.getAllNotDoneInstructionsByForester(user.getId().toString());
 
@@ -123,7 +140,7 @@ public class ForesterTasksTag extends SimpleTagSupport {
             String errorMessage = BUNDLE.getString(DATABASE_CONN_ERROR);
             Logger.getLogger(AllPlantsTag.class).error(errorMessage, ex);
             request.setAttribute(WebTags.ERROR_MESSAGE_TAG, errorMessage);
-            request.setAttribute(WebTags.ERROR_CODE_TAG, 500);
+            request.setAttribute(WebTags.ERROR_CODE_TAG, ERROR_CODE);
             try {
                 request.getRequestDispatcher(ERROR_PAGE).forward(request, response);
             } catch (ServletException ex1) {
@@ -132,6 +149,9 @@ public class ForesterTasksTag extends SimpleTagSupport {
         }
     }
 
+    /**
+     * Keys in locale properties file.
+     */
     private interface LocaleKeys {
 
         String TITLE = "forester_tasks_tag.title";

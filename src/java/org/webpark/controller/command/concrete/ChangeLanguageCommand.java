@@ -14,10 +14,11 @@ import org.webpark.controller.command.WebTags;
 import org.webpark.locale.Language;
 
 /**
+ * Command that changes client localization.
  *
  * @author Karichkovskiy Yevhen
  */
-class ChangeLanguageCommand implements Command{
+class ChangeLanguageCommand implements Command {
 
     @Override
     public CommandResult execute(HttpServletRequest request, HttpServletResponse response) {
@@ -27,5 +28,5 @@ class ChangeLanguageCommand implements Command{
         Config.set(request.getSession(false), Config.FMT_LOCALE, lang.getLocale());
         return new CommandResult(currentUri, CommandResult.JumpType.REDIRECT);
     }
-    
+
 }

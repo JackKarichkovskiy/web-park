@@ -6,6 +6,8 @@
 package org.webpark.configuration.exception;
 
 /**
+ * Class represents an exception that occurs when configuration property wasn't
+ * found.
  *
  * @author Karichkovskiy Yevhen
  */
@@ -37,6 +39,5 @@ public class ConfigurationPropertyNotFoundException extends Exception {
     public ConfigurationPropertyNotFoundException(Throwable cause) {
         super(cause);
     }
-    
-    
+
 }

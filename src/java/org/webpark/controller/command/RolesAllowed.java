@@ -12,11 +12,17 @@ import java.lang.annotation.Target;
 import org.webpark.dao.entities.User.Roles;
 
 /**
+ * Annotation that controls the access to Command executing.
  *
  * @author Karichkovskiy Yevhen
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface RolesAllowed {
+
+    /**
+     * Roles that have access to Command.
+     * @return roles that have access to Command
+     */
     public Roles[] value();
 }

@@ -13,13 +13,20 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
+import org.webpark.configuration.AppConfiguration;
 
 /**
+ * Class that sets character encoding for all requests from user.
  *
  * @author Karichkovskiy Yevhen
  */
 @WebFilter("/*")
 public class CharacterEncodingFilter implements Filter {
+
+    /**
+     * Tag-key to app config file to request encoding value.
+     */
+    private static final String REQUEST_ENCODING_TAG = "request_encoding";
 
     @Override
     public void init(FilterConfig config) throws ServletException {
@@ -28,7 +35,10 @@ public class CharacterEncodingFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        request.setCharacterEncoding("UTF-8");
+        String encoding = AppConfiguration.getInstance().getProperty(REQUEST_ENCODING_TAG);
+        if (encoding != null) {
+            request.setCharacterEncoding(encoding);
+        }
         chain.doFilter(request, response);
     }
 

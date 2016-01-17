@@ -11,11 +11,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * Annotation that marks primary key fields.
  *
  * @author Karichkovskiy Yevhen
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(value=ElementType.FIELD)
+@Target(value = ElementType.FIELD)
 public @interface Primary {
-    
+
 }

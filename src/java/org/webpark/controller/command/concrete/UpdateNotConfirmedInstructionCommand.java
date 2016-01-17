@@ -23,47 +23,68 @@ import org.webpark.dao.exception.DAOException;
 import org.webpark.locale.AppBundleFactory;
 
 /**
+ * Command that updates statuses of instruction and its tasks by owner.
  *
  * @author Karichkovskiy Yevhen
  */
 @RolesAllowed(User.Roles.OWNER)
-public class UpdateNotConfirmedInstructionCommand implements Command{
-    
+public class UpdateNotConfirmedInstructionCommand implements Command {
+
+    /**
+     * Error message for some database operation problems.
+     */
     private static final String DATABASE_CONN_ERROR = "log.database_conn_error";
-    private static final ResourceBundle BUNDLE = AppBundleFactory.getInstance().getAppBundle();
-    private static final String ERROR_PAGE = UriBuilder.getUri("error_page", CommandResult.JumpType.FORWARD);
-    private static final String ACCOUNT_PAGE = UriBuilder.getUri("account_page", CommandResult.JumpType.REDIRECT);
     
+    /**
+     * Application standard locale bundle.
+     */
+    private static final ResourceBundle BUNDLE = AppBundleFactory.getInstance().getAppBundle();
+    
+    /**
+     * URI that refers to error page.
+     */
+    private static final String ERROR_PAGE = UriBuilder.getUri("error_page", CommandResult.JumpType.FORWARD);
+    
+    /**
+     * HTTP error status code if some problems occurs.
+     */
+    private static final int ERROR_CODE = 500;
+    
+    /**
+     * URI that refers to account page.
+     */
+    private static final String ACCOUNT_PAGE = UriBuilder.getUri("account_page", CommandResult.JumpType.REDIRECT);
+
     @Override
     public CommandResult execute(HttpServletRequest request, HttpServletResponse response) {
         String instructionIdStr = request.getParameter(WebTags.INSTRUCTION_ID_TAG);
         String instructionStatusStr = request.getParameter(WebTags.INSTRUCTION_STATUS_TAG);
         Instruction inst = new Instruction(UUID.fromString(instructionIdStr), null, null, null, Instruction.Status.valueOf(instructionStatusStr));
-        
+
         String[] stepIdsStr = request.getParameterValues(WebTags.INSTRUCTION_STEP_ID_TAG);
         String[] stepTasksStr = request.getParameterValues(WebTags.INSTRUCTION_STEP_TASK_TAG);
         String[] stepStatusesStr = request.getParameterValues(WebTags.INSTRUCTION_STEP_STATUS_TAG);
         InstructionStep[] steps = new InstructionStep[stepIdsStr.length];
         for (int i = 0; i < steps.length; i++) {
             steps[i] = new InstructionStep(UUID.fromString(stepIdsStr[i]),
-                    null, 
-                    null, 
-                    stepTasksStr[i], 
-                    null, 
+                    null,
+                    null,
+                    stepTasksStr[i],
+                    null,
                     InstructionStep.Status.valueOf(stepStatusesStr[i]));
         }
-        
+
         try {
             AppDaoFactory.getInstance().getInstructionDao().updateNotConfirmedInstructionStatuses(inst, steps);
         } catch (DAOException ex) {
             String errorMessage = BUNDLE.getString(DATABASE_CONN_ERROR);
             Logger.getLogger(UpdateNotConfirmedInstructionCommand.class).error(errorMessage, ex);
             request.setAttribute(WebTags.ERROR_MESSAGE_TAG, errorMessage);
-            request.setAttribute(WebTags.ERROR_CODE_TAG, 500);
+            request.setAttribute(WebTags.ERROR_CODE_TAG, ERROR_CODE);
             return new CommandResult(ERROR_PAGE, CommandResult.JumpType.FORWARD);
         }
-        
+
         return new CommandResult(ACCOUNT_PAGE, CommandResult.JumpType.REDIRECT);
     }
-    
+
 }

@@ -10,13 +10,25 @@ import java.lang.annotation.RetentionPolicy;
 import org.webpark.dao.annotation.utils.converters.Converters;
 
 /**
+ * Annotation that marks entities that stored in database. Also contains the
+ * related name in database to marked part and the converter.
  *
  * @author Karichkovskiy Yevhen
  */
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Stored {
 
+    /**
+     * Stores the name of marked part in database.
+     *
+     * @return name in database
+     */
     public String name();
 
+    /**
+     * Converter for integration with database.
+     *
+     * @return converter
+     */
     public Converters converter() default Converters.StringConverter;
 }

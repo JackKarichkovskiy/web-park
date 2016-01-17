@@ -24,18 +24,43 @@ import org.webpark.controller.uri.UriBuilder;
 import org.webpark.locale.AppBundleFactory;
 
 /**
+ * Class that filters urls by pattern and allows access only for authorized
+ * users.
+ * It's in build mechanism to add filters.
  *
  * @author Karichkovskiy Yevhen
  */
 @WebFilter(filterName = "/AuthenticationFilter", urlPatterns = "/secured/*")
 public class AuthenticationFilter implements Filter {
 
+    /**
+     * Logging message tag for filtering urls.
+     */
     private static final String FILTER_URI_TAG = "log.filter_uri";
+    
+    /**
+     * Logging message tag for filtering urls with session info.
+     */
     private static final String FILTER_URI_USER_SESSION_TAG = "log.filter_uri_user_session";
+    
+    /**
+     * Logging message tag for situations of redirecting.
+     */
     private static final String REDIRECTED_URI_TAG = "log.redirected_uri";
+    
+    /**
+     * Application standard locale bundle.
+     */
     private static final ResourceBundle BUNDLE = AppBundleFactory.getInstance().getAppBundle();
+    
+    /**
+     * URI of index page.
+     */
     private static final String DEFAULT_PAGE = UriBuilder.getUri("init_page");
 
+    /**
+     * Object that contains the information of servlet context.
+     */
     private ServletContext context;
 
     @Override
@@ -60,7 +85,7 @@ public class AuthenticationFilter implements Filter {
                                     session.getAttribute(WebTags.SESSION_USER_TAG),
                                     session.getId()));
         }
-        
+
         if (session == null || session.getAttribute(WebTags.SESSION_USER_TAG) == null) {
             String redirect = DEFAULT_PAGE;
             Logger.getLogger(AuthenticationFilter.class).

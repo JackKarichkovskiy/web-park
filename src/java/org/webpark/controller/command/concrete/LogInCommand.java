@@ -22,16 +22,41 @@ import org.webpark.dao.exception.DAOException;
 import org.webpark.locale.AppBundleFactory;
 
 /**
+ * Command that log in a user.
  *
  * @author Karichkovskiy Yevhen
  */
 @RolesAllowed(User.Roles.GUEST)
 class LogInCommand implements Command {
 
+    /**
+     * Error message for some database operation problems.
+     */
     private static final String DATABASE_CONN_ERROR = "log.database_conn_error";
+    
+    /**
+     * Application standard locale bundle.
+     */
     private static final ResourceBundle BUNDLE = AppBundleFactory.getInstance().getAppBundle();
+    
+    /**
+     * URI that refers to error page.
+     */
     private static final String ERROR_PAGE = UriBuilder.getUri("error_page", CommandResult.JumpType.FORWARD);
+    
+    /**
+     * HTTP error status code if some problems occurs.
+     */
+    private static final int ERROR_CODE = 500;
+    
+    /**
+     * URI that refers to account page.
+     */
     private static final String ACCOUNT_PAGE = UriBuilder.getUri("account_page", CommandResult.JumpType.REDIRECT);
+    
+    /**
+     * URI that refers to index page.
+     */
     private static final String INIT_PAGE = UriBuilder.getUri("init_page", CommandResult.JumpType.REDIRECT);
 
     @Override
@@ -50,7 +75,7 @@ class LogInCommand implements Command {
             String errorMessage = BUNDLE.getString(DATABASE_CONN_ERROR);
             Logger.getLogger(LogInCommand.class).error(errorMessage, ex);
             request.setAttribute(WebTags.ERROR_MESSAGE_TAG, errorMessage);
-            request.setAttribute(WebTags.ERROR_CODE_TAG, 500);
+            request.setAttribute(WebTags.ERROR_CODE_TAG, ERROR_CODE);
             return new CommandResult(ERROR_PAGE, CommandResult.JumpType.FORWARD);
         }
 

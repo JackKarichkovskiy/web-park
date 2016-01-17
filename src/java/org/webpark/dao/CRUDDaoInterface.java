@@ -6,10 +6,10 @@
 package org.webpark.dao;
 
 import java.util.List;
-import java.util.UUID;
 import org.webpark.dao.exception.DAOException;
 
 /**
+ * Interface defines basic CRUD methods to work with database.
  *
  * @author Karichkovskiy Yevhen
  */
@@ -56,14 +56,14 @@ public interface CRUDDaoInterface {
 
     /**
      * Method returns list of all entities stored in db.
-     * 
+     *
      * @param <T> - entity type
      * @param entityClass - class of entities that needs to be pulled
      * @return list of all entities
      * @throws DAOException - if some sql or connection problems
      */
     public <T> List<T> getAllEntities(Class<T> entityClass) throws DAOException;
-    
+
     /**
      * Returns list of entities from db after executing input SQL string.
      *
@@ -74,5 +74,5 @@ public interface CRUDDaoInterface {
      * @throws DAOException - if some sql or connection problems
      */
     public <T> List<T> select(Class<T> entityClass, String sqlString) throws DAOException;
-    
+
 }

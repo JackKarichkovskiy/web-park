@@ -12,7 +12,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
 import org.apache.log4j.Logger;
 import org.webpark.configuration.exception.ConfigurationPropertyNotFoundException;
 import org.webpark.dao.AppDaoFactory;
@@ -26,15 +25,25 @@ import org.webpark.dao.mysql.MySQLDaoConfiguration;
 import static org.webpark.utils.ProjectUtils.checkNotNull;
 
 /**
+ * Class that realizes UserDao for MySQL database.
  *
  * @author Karichkovskiy Yevhen
  */
 public class MySQLUserDaoService implements UserDaoServiceInterface {
 
+    /**
+     * Class of User entity.
+     */
     private static final Class<User> USER_CLASS = User.class;
 
+    /**
+     * Config file with sql queries for mysql database.
+     */
     private final MySQLDaoConfiguration daoConf = MySQLDaoConfiguration.getInstance();
 
+    /**
+     * Pool connections holder object.
+     */
     private final DaoConnection connHolder = DaoConnection.getInstance();
 
     private MySQLUserDaoService() {
@@ -60,14 +69,14 @@ public class MySQLUserDaoService implements UserDaoServiceInterface {
         }
         String query = String.format(readQuery, convertedUsername, convertedPassword);
         Logger.getLogger(MySQLUserDaoService.class).info(query);
-        
+
         Connection connection = null;
         try {
             connection = connHolder.getConnection();
         } catch (SQLException ex) {
             throw new DAOException(ex);
         }
-        
+
         ResultSet rs;
         try (Statement stmt = connection.createStatement()) {
             rs = stmt.executeQuery(query);
@@ -78,11 +87,11 @@ public class MySQLUserDaoService implements UserDaoServiceInterface {
                         map.put(field.getAnnotation(DAOUtils.STORED_ANNO_CLASS).name(), rs.getString(field.getAnnotation(DAOUtils.STORED_ANNO_CLASS).name()));
                     }
                 }
-                return DAOUtils.MapToEntity(USER_CLASS, map);
+                return DAOUtils.mapToEntity(USER_CLASS, map);
             }
         } catch (SQLException ex) {
             throw new DAOException(ex);
-        }finally{
+        } finally {
             try {
                 connection.close();
             } catch (SQLException ex) {
@@ -98,7 +107,7 @@ public class MySQLUserDaoService implements UserDaoServiceInterface {
         if (selectQuery == null) {
             throw new DAOException(new ConfigurationPropertyNotFoundException());
         }
-        
+
         return AppDaoFactory.getInstance().getCRUDDao().select(USER_CLASS, selectQuery);
     }
 
@@ -107,6 +116,9 @@ public class MySQLUserDaoService implements UserDaoServiceInterface {
         private static final MySQLUserDaoService INSTANCE = new MySQLUserDaoService();
     }
 
+    /**
+     * Tags for sql queries that stored in mysql dao config file.
+     */
     private interface Queries {
 
         String GET_BY_USERNAME_PASSWORD_QUERY_TAG = "user.get_by_username_password";

@@ -6,6 +6,7 @@
 package org.webpark.dao.exception;
 
 /**
+ * Exception occurs when some problems with reflection reading from field.
  *
  * @author Karichkovskiy Yevhen
  */
@@ -35,6 +36,5 @@ public class FieldReadingException extends Exception {
     public FieldReadingException(Throwable cause) {
         super(cause);
     }
-    
-    
+
 }

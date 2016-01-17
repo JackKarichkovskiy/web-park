@@ -16,14 +16,20 @@ import org.webpark.controller.command.CommandFactory;
 import org.webpark.controller.command.CommandResult;
 
 /**
+ * Servlet that executes concrete Command by its command name and goes to the
+ * next page. 
+ * Controller in web MVC pattern.
  *
  * @author Karichkovskiy Yevhen
  */
 @WebServlet(name = "Controller", urlPatterns = {"/Controller"})
 public class Controller extends HttpServlet {
 
+    /**
+     * Query parameter name of command name.
+     */
     private static final String COMMAND_PARAM = "command";
-    
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.

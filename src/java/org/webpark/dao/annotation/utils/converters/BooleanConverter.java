@@ -8,6 +8,7 @@ package org.webpark.dao.annotation.utils.converters;
 import org.webpark.dao.annotation.utils.Converter;
 
 /**
+ * Converts Boolean object.
  *
  * @author Karichkovskiy Yevhen
  */

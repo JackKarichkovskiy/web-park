@@ -6,10 +6,13 @@
 package org.webpark.controller.command;
 
 /**
+ * Interface that contains different tags(names) of parameters that received
+ * from jsp pages.
  *
  * @author Karichkovskiy Yevhen
  */
 public interface WebTags {
+
     String USERNAME_TAG = "username";
     String PASSWORD_TAG = "password";
     String SESSION_USER_TAG = "user";

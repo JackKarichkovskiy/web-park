@@ -8,11 +8,15 @@ package org.webpark.dao.mysql;
 import org.webpark.configuration.AbstractConfiguration;
 
 /**
+ * Configuration that stores sql queries for mysql database.
  *
  * @author Karichkovskiy Yevhen
  */
 public class MySQLDaoConfiguration extends AbstractConfiguration {
 
+    /**
+     * Default location of mysql dao config file.
+     */
     private static final String DEFAULT_CONF_PATH = "mysql/dao.properties";
 
     private MySQLDaoConfiguration(String confPath) {
