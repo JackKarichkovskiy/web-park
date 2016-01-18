@@ -14,6 +14,6 @@
     </head>
     <body>
         <h3><fmt:message key="access_denied.message" bundle="${lang}"/></h3>
-        <a href="/WebPark/index.jsp">Main page</a>
+        <a href="/WebPark/index.jsp"><fmt:message key="access_denied.link_main" bundle="${lang}"/></a>
     </body>
 </html>

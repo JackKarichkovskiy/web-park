@@ -105,6 +105,19 @@ public class Instruction {
      */
     public enum Status {
 
-        NEW, IN_PROGRESS, DONE, DONE_VERIFIED;
+        NEW("instr.status.new"),
+        IN_PROGRESS("instr.status.in_progress"),
+        DONE("instr.status.done"),
+        DONE_VERIFIED("instr.status.done_verified");
+
+        private final String localeKey;
+
+        private Status(String localeKey) {
+            this.localeKey = localeKey;
+        }
+
+        public String getLocaleKey() {
+            return localeKey;
+        }
     }
 }

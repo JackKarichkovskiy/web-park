@@ -109,26 +109,36 @@ public class ForesterTasksTag extends SimpleTagSupport {
                                 sessionBundle.getString(LocaleKeys.STEP_REPORT),
                                 notNullReport,
                                 WebTags.INSTRUCTION_STEP_REPORT_TAG));
-                        out.println(String.format("<select name=\"%s\">", WebTags.INSTRUCTION_STEP_STATUS_TAG));
+                        out.println(String.format("<div>%s: <select name=\"%s\">",
+                                sessionBundle.getString(LocaleKeys.STEP_STATUS),
+                                WebTags.INSTRUCTION_STEP_STATUS_TAG));
                         for (Status status : Status.values()) {
                             if (status.equals(Status.DONE_VERIFIED)) {
                                 continue;
                             }
                             String selected = status.equals(stepStatus) ? "selected=\"selected\"" : "";
-                            out.println(String.format("<option %s>%s</option>", selected, status));
+                            out.println(String.format("<option %s value=\"%s\">%s</option>",
+                                    selected,
+                                    status,
+                                    sessionBundle.getString(status.getLocaleKey())));
                         }
-                        out.println("</select>");
+                        out.println("</select></div>");
                         out.println("</li>");
                     }
                 }
                 out.println("</ul>");
-                out.println(String.format("<div><select name=\"%s\">", WebTags.INSTRUCTION_STATUS_TAG));
+                out.println(String.format("<div>%s: <select name=\"%s\">",
+                        sessionBundle.getString(LocaleKeys.STATUS),
+                        WebTags.INSTRUCTION_STATUS_TAG));
                 for (Instruction.Status status : Instruction.Status.values()) {
                     if (status.equals(Instruction.Status.DONE_VERIFIED)) {
                         continue;
                     }
                     String selected = status.equals(instruction.getStatus()) ? "selected=\"selected\"" : "";
-                    out.println(String.format("<option %s>%s</option>", selected, status));
+                    out.println(String.format("<option %s value=\"%s\">%s</option>",
+                            selected,
+                            status,
+                            sessionBundle.getString(status.getLocaleKey())));
                 }
                 out.println("</select></div>");
                 out.println(String.format("<div><input type=\"submit\" value=\"%s\"/></div>", sessionBundle.getString(LocaleKeys.SUBMIT)));
@@ -159,6 +169,8 @@ public class ForesterTasksTag extends SimpleTagSupport {
         String STEP_PLANT = "forester_tasks_tag.step_plant";
         String STEP_TASK = "forester_tasks_tag.step_task";
         String STEP_REPORT = "forester_tasks_tag.step_report";
+        String STEP_STATUS = "forester_tasks_tag.step_status";
+        String STATUS = "forester_tasks_tag.status";
         String SUBMIT = "forester_tasks_tag.submit";
     }
 }

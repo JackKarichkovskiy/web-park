@@ -120,6 +120,19 @@ public class InstructionStep {
      */
     public enum Status {
 
-        NEW, IN_PROGRESS, DONE, DONE_VERIFIED;
+        NEW("instr_step.status.new"),
+        IN_PROGRESS("instr_step.status.in_progress"),
+        DONE("instr_step.status.done"),
+        DONE_VERIFIED("instr_step.status.done_verified");
+        
+        private final String localeKey;
+
+        private Status(String localeKey) {
+            this.localeKey = localeKey;
+        }
+
+        public String getLocaleKey() {
+            return localeKey;
+        }
     }
 }

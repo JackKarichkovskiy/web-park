@@ -104,20 +104,30 @@ public class OwnerNotConfirmedTasksTag extends SimpleTagSupport {
                     String notNullTask = task != null ? task : "";
                     out.println(String.format("<div>%s: <input type=\"text\" value=\"%s\" name=\"%s\"/></div>", sessionBundle.getString(LocaleKeys.TASK), notNullTask, WebTags.INSTRUCTION_STEP_TASK_TAG));
                     out.println(String.format("<div>%s: %s</div>", sessionBundle.getString(LocaleKeys.REPORT), allStepsInInstruction.get(MySQLInstructionDaoService.GetAllStepsInInstructionResultTags.STEP_REPORT).get(i)));
-                    out.println(String.format("<select name=\"%s\">", WebTags.INSTRUCTION_STEP_STATUS_TAG));
+                    out.println(String.format("<div>%s: <select name=\"%s\">",
+                            sessionBundle.getString(LocaleKeys.STEP_STATUS),
+                            WebTags.INSTRUCTION_STEP_STATUS_TAG));
                     for (InstructionStep.Status status : InstructionStep.Status.values()) {
                         String stepStatus = (String) allStepsInInstruction.get(MySQLInstructionDaoService.GetAllStepsInInstructionResultTags.STEP_STATUS).get(i);
                         String selected = status.equals(InstructionStep.Status.valueOf(stepStatus)) ? "selected=\"selected\"" : "";
-                        out.println(String.format("<option %s>%s</option>", selected, status));
+                        out.println(String.format("<option %s value=\"%s\">%s</option>",
+                                selected,
+                                status,
+                                sessionBundle.getString(status.getLocaleKey())));
                     }
-                    out.println("</select>");
+                    out.println("</select></div>");
                     out.println("</li>");
                 }
                 out.println("</ul>");
-                out.println(String.format("<div><select name=\"%s\">", WebTags.INSTRUCTION_STATUS_TAG));
+                out.println(String.format("<div>%s: <select name=\"%s\">",
+                        sessionBundle.getString(LocaleKeys.STATUS),
+                        WebTags.INSTRUCTION_STATUS_TAG));
                 for (Status status : Instruction.Status.values()) {
                     String selected = status.equals(instruction.getStatus()) ? "selected=\"selected\"" : "";
-                    out.println(String.format("<option %s>%s</option>", selected, status));
+                    out.println(String.format("<option %s value=\"%s\">%s</option>",
+                            selected,
+                            status,
+                            sessionBundle.getString(status.getLocaleKey())));
                 }
                 out.println("</select></div>");
                 out.println(String.format("<div><input type=\"submit\" value=\"%s\"/></div>", sessionBundle.getString(LocaleKeys.SUBMIT)));
@@ -149,6 +159,8 @@ public class OwnerNotConfirmedTasksTag extends SimpleTagSupport {
         String PLANT = "owner_not_confirmed_tasks_tag.step_plant";
         String TASK = "owner_not_confirmed_tasks_tag.step_task";
         String REPORT = "owner_not_confirmed_tasks_tag.step_report";
+        String STEP_STATUS = "owner_not_confirmed_tasks_tag.step_status";
+        String STATUS = "owner_not_confirmed_tasks_tag.status";
         String SUBMIT = "owner_not_confirmed_tasks_tag.submit";
     }
 }

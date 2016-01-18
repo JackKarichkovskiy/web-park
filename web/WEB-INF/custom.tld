@@ -38,4 +38,9 @@
         <tag-class>org.webpark.tag.OwnerNotConfirmedTasksTag</tag-class>
         <body-content>empty</body-content>
     </tag>
+    <tag>
+        <name>instructionStatuses</name>
+        <tag-class>org.webpark.tag.InstructionStatusSelectTag</tag-class>
+        <body-content>empty</body-content>
+    </tag>
 </taglib>

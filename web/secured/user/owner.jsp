@@ -7,8 +7,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="ex" uri="/WEB-INF/custom.tld"%>
-<%@page import="org.webpark.dao.entities.Instruction"%>
-<%@page import="org.webpark.dao.entities.Instruction.Status"%>
 
 <h2><fmt:message key="owner.welcome" bundle="${lang}"/> ${sessionScope.user.username}!</h2>
 
@@ -35,13 +33,7 @@
     </div>
 
     <p><fmt:message key="owner.inst_status" bundle="${lang}"/>:
-        <select name="status">
-            <%
-                for (Status status : Instruction.Status.values()) {
-                    out.println("<option>" + status + "</option>");
-                }
-            %>
-        </select>
+        <ex:instructionStatuses/>
     </p>
     <p>
         <fmt:message key="owner.inst_submit" bundle="${lang}" var="inst_submit_lbl"/>
